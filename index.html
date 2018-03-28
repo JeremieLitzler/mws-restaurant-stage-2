@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <!--<link rel="stylesheet" src="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>-->
+    <link href="assets/css/reset.css" rel="stylesheet" />
+    <link href="assets/css/styles.css" rel="stylesheet" />
+    <title>
+        Restaurant Reviews - Home
+    </title>
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="Udacity, Jérémie Litzler" name="author" />
+    <meta content="Restaurant reviews webapp." name="description" />
+    <meta content="Udacity, tous droits réservés © 2018" name="copyright" />
+    <meta content="noindex,nofollow" name="robots" />
+    <link href="assets/img/icons/apple-icon-57x57.png" rel="apple-touch-icon" sizes="57x57" />
+    <link href="assets/img/icons/apple-icon-60x60.png" rel="apple-touch-icon" sizes="60x60" />
+    <link href="assets/img/icons/apple-icon-72x72.png" rel="apple-touch-icon" sizes="72x72" />
+    <link href="assets/img/icons/apple-icon-76x76.png" rel="apple-touch-icon" sizes="76x76" />
+    <link href="assets/img/icons/apple-icon-114x114.png" rel="apple-touch-icon" sizes="114x114" />
+    <link href="assets/img/icons/apple-icon-120x120.png" rel="apple-touch-icon" sizes="120x120" />
+    <link href="assets/img/icons/apple-icon-144x144.png" rel="apple-touch-icon" sizes="144x144" />
+    <link href="assets/img/icons/apple-icon-152x152.png" rel="apple-touch-icon" sizes="152x152" />
+    <link href="assets/img/icons/apple-icon-180x180.png" rel="apple-touch-icon" sizes="180x180" />
+    <link href="assets/img/icons/android-icon-192x192.png" rel="icon" sizes="192x192" type="image/png" />
+    <link href="assets/img/icons/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+    <link href="assets/img/icons/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+    <link href="assets/img/icons/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
+    <link href="./manifest.json" rel="manifest" />
+    <meta content="#ffffff" name="msapplication-TileColor" />
+    <meta content="img/icons/ms-icon-144x144.png" name="msapplication-TileImage" />
+    <meta content="#ffffff" name="theme-color" />
+</head>
+
+</html>
+
+<body>
+    <a class="c-skip-link c-btn c-btn-over-dark" href="#filters">
+        Skip to searching restaurants
+    </a>
+    <header>
+        <h1>
+            <a class="c-link-on-dark jsHomeLink" href="/" title="View Home page">
+                Restaurant Reviews
+            </a>
+        </h1>
+        <nav>
+        </nav>
+    </header>
+    <main class="index-page-container" id="maincontent">
+        <section class="map-container" id="map-container">
+            <div class="map-offline-placeholder">
+                <h2 class="emphasis">Google Maps</h2>
+                <p class="emphasis">Connect to a Wifi or Mobile network to view the map.</p>
+            </div>
+            <div aria-hidden="true" role="application" id="map">
+            </div>
+        </section>
+        <section class="restaurants-container">
+            <div class="filter-options" id="filters">
+                <button class="c-btn btn-default open-search-modal js-filters-modal" href="#" title="Open the search">
+                    Search
+                </button>
+            </div>
+            <ul id="restaurants-list">
+            </ul>
+            <p class="no-restaurant-msg">
+                No restaurant found for your search.
+            </p>
+        </section>
+    </main>
+    <footer id="footer">
+        Copyright (c) 2018
+        <a href="/" class="jsHomeLink" title="View Home page">
+            <strong>
+                Restaurant Reviews
+            </strong>
+        </a>
+        All Rights Reserved.
+    </footer>
+    <div class="c-modal js-filters-modal" id="filters-modal" role="dialog">
+        <h2>
+            You can filter the restaurant list using the dropdowns below
+        </h2>
+        <label for="neighborhoods-select">
+            Select a neighborhood value:
+        </label>
+        <select id="neighborhoods-select" name="neighborhoods">
+            <option value="all">
+                All Neighborhoods
+            </option>
+        </select>
+        <label for="cuisines-select">
+            Select a cuisine value:
+        </label>
+        <select id="cuisines-select" name="cuisines">
+            <option value="all">
+                All Cuisines
+            </option>
+        </select>
+        <button class="c-btn btn-default js-apply-filters" href="#" title="Apply selected filters to display the list of restaurants">
+            Apply selected filters
+        </button>
+        <button class="c-btn btn-default js-close-modal" title="Close search modal">
+            Close Search
+        </button>
+    </div>
+    <script charset="utf-8" src="assets/js/app.js" type="application/javascript">
+    </script>
+    <script charset="utf-8" src="assets/js/dbhelper.js" type="application/javascript">
+    </script>
+    <script charset="utf-8" src="assets/js/main.js" type="application/javascript">
+    </script>
+    <script charset="utf-8" src="assets/js/focus.handler.js" type="application/javascript">
+    </script>
+    <script charset="utf-8" src="assets/js/select.change.handler.js" type="application/javascript">
+    </script>
+    <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXysE433qRY0W9gup0-_N5UF_0ObJK3oc&libraries=places&callback=initMap">
+    </script>
+</body>
