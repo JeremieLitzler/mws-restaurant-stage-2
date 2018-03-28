@@ -1,6 +1,4 @@
-# Udacity Nanodegree and Google Challenge "Mobile Web Specialist" [![Codacy Badge]
-
-#### _Three Stage Course Material Project - Restaurant Reviews_
+# Udacity Nanodegree and Google Challenge "Mobile Web Specialist"
 
 ## Project Overview: Stage 2
 
