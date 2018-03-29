@@ -1,8 +1,6 @@
-# Mobile Web Specialist Certification Course [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1ae3dfb3b4d140ae8b1133ec62f29096)](https://www.codacy.com/app/jeremie.litzler/mws-restaurant-stage-1?utm_source=github.com&utm_medium=referral&utm_content=JeremieLitzler/mws-restaurant-stage-1&utm_campaign=Badge_Grade) [![Maintainability](https://api.codeclimate.com/v1/badges/1df738c729e070499896/maintainability)](https://codeclimate.com/github/JeremieLitzler/mws-restaurant-stage-1/maintainability)
+# Udacity Nanodegree and Google Challenge "Mobile Web Specialist"
 
-#### _Three Stage Course Material Project - Restaurant Reviews_
-
-## Project Overview: Stage 1
+## Project Overview: Stage 2
 
 For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.
 
