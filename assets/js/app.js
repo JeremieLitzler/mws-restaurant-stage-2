@@ -1,7 +1,7 @@
 const GOOGLE_MAPS_API_KEY = "AIzaSyBXysE433qRY0W9gup0-_N5UF_0ObJK3oc";
 let appAlias = "";
 if (location.port === "8001") {
-  appAlias = "mws-restaurant-stage-1";
+  appAlias = "mws-restaurant-stage-2";
 }
 
 function openDatabase() {
