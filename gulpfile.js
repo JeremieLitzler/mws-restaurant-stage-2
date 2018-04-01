@@ -16,8 +16,8 @@ gulp.task("images", function() {
           "*.jpg": [
             { width: 64, rename: { suffix: "-64w" } },
             { width: 128, rename: { suffix: "-128w" } },
-            { width: 400, rename: { suffix: "-400w" } },
-            { width: 500, rename: { suffix: "-500w" } },
+            { width: 360, rename: { suffix: "-360w" } },
+            { width: 480, rename: { suffix: "-480w" } },
             {
               // Compress, strip metadata, and rename original image //used for the index.html across all viewports // //used for the index.html across all viewports
               rename: { suffix: "-better-original" }

@@ -56,10 +56,11 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const address = document.getElementById("restaurant-address");
   address.innerHTML = `and is located at:<p><i>${restaurant.address}</i></p>`;
   const image = document.getElementById("restaurant-img");
-  image.className = "restaurant-img";
+  image.className = "lazyload restaurant-img";
   image.alt = `${restaurant.name} restaurant, ${restaurant.shortDesc}`;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant, 128);
-  image.srcset = buildSrcSet(restaurant);
+  image.src = DBHelper.imageUrlForRestaurant(restaurant, 360, true);
+  image.setAttribute("data-src", buildDataSrc(restaurant));
+  image.setAttribute("data-srcset", buildDataSrcSet(restaurant));
   // fill operating hours
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
@@ -168,10 +169,19 @@ getParameterByName = (name, url) => {
  * Build the string value of the srcset attribute of an image element.
  * @param {restaurant} restaurant
  */
-function buildSrcSet(restaurant) {
+buildDataSrc = restaurant => {
+  const img360w = DBHelper.imageUrlForRestaurant(restaurant, 360);
+  const dataSrcVal = `${img360w}`;
+  return dataSrcVal;
+};
+/**
+ * Build the string value of the srcset attribute of an image element.
+ * @param {restaurant} restaurant
+ */
+buildDataSrcSet = restaurant => {
   const img360w = DBHelper.imageUrlForRestaurant(restaurant, 360);
   const img480w = DBHelper.imageUrlForRestaurant(restaurant, 480);
   const imgOriginalImproved = DBHelper.imageUrlForRestaurant(restaurant);
-  const srcsetVal = `${img360w} 360w, ${img480w} 480w, ${imgOriginalImproved} 800w`;
-  return srcsetVal;
-}
+  const dataSrcSetVal = `${img360w} 360w, ${img480w} 480w, ${imgOriginalImproved} 800w`;
+  return dataSrcSetVal;
+};
