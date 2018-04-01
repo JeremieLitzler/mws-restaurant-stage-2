@@ -27,6 +27,9 @@
     <meta name="application-name" content="Restaurant reviews" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
+    <style>
+        /* Critical path css */
+    </style>
 </head>
 
 </html>
@@ -44,6 +47,26 @@
         <nav>
         </nav>
     </header>
+    <div class="loading-screen">
+        <p class="c-emphasis text-lg">Hang on a second</p>
+        <p class="c-emphasis text-md">while we load the best of NYC's restaurants!</p>
+        <div class="c-loading-icon">
+            <div class="container">
+                <div class="dot dot-1"></div>
+                <div class="dot dot-2"></div>
+                <div class="dot dot-3"></div>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                <defs>
+                    <filter id="goo">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7" />
+                    </filter>
+                </defs>
+            </svg>
+        </div>
+    </div>
     <main class="index-page-container" id="maincontent">
         <section class="map-container" id="map-container">
             <div class="map-offline-placeholder">
@@ -102,6 +125,8 @@
             Close Search
         </button>
     </div>
+    <script charset="utf-8" src="assets/js/lazysizes.min.js" type="application/javascript">
+    </script>
     <script charset="utf-8" src="assets/js/app.js" type="application/javascript">
     </script>
     <script charset="utf-8" src="assets/js/dbhelper.js" type="application/javascript">

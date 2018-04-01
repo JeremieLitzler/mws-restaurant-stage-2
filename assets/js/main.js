@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", event => {
   fetchNeighborhoods();
   fetchCuisines();
 });
+
+hideLoadingScreen = () => {
+  const loadingScreen = document.querySelector(".loading-screen");
+  loadingScreen.style.display = "none";
+};
 /**
  * Fetch all neighborhoods and set their HTML.
  */
@@ -94,6 +99,7 @@ updateRestaurants = () => {
         // Got an error!
         console.error(error);
       } else {
+        hideLoadingScreen();
         resetRestaurants(restaurants);
         fillRestaurantsHTML();
       }
@@ -144,10 +150,14 @@ createRestaurantHTML = restaurant => {
   const imageContainer = document.createElement("div");
   imageContainer.className = "restaurant-img-container";
   const image = document.createElement("img");
-  image.className = "restaurant-img";
+  image.className = "lazyload restaurant-img c-img-layer";
   image.alt = `${restaurant.name} restaurant, ${restaurant.shortDesc}`;
   const isIcon = true;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant, 128);
+  image.src = DBHelper.imageUrlForRestaurant(restaurant, 0, true);
+  image.setAttribute(
+    "data-src",
+    DBHelper.imageUrlForRestaurant(restaurant, 128)
+  );
   imageContainer.appendChild(image);
   li.append(imageContainer);
   const descriptionItems = document.createElement("div");

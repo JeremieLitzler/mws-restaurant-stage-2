@@ -59,10 +59,10 @@ function checkServiceWorkerController() {
     );
   }
 }
-window.addEventListener("load", function() {
+window.addEventListener("load", () => {
   //openDatabase();
-  registerServiceWorker();
-  checkServiceWorkerController();
+  //registerServiceWorker();
+  //checkServiceWorkerController();
   let homeLinks = document.querySelectorAll(".jsHomeLink");
   for (const link of homeLinks) {
     link.href = `./`;

@@ -195,8 +195,15 @@ class DBHelper {
   /**
    * Restaurant image URL.
    */
-  static imageUrlForRestaurant(restaurant, imgWidth = null) {
+  static imageUrlForRestaurant(
+    restaurant,
+    imgWidth = null,
+    usePlaceholder = false
+  ) {
     const imgFolderPath = `build/img/`;
+    if (usePlaceholder) {
+      return `assets/img/placeholder.svg`;
+    }
     if (imgWidth !== null) {
       return `${imgFolderPath}${restaurant.id}-${imgWidth}w.jpg`;
     }

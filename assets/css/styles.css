@@ -62,6 +62,10 @@
   --c-btn-lh-default: 48px;
   /* default row height */
   --c-row-min-height: 64px;
+  /* z-index of the images */
+  --img-layer: 50;
+  /* z-index of the images placeholders */
+  --img-ph-layer: 51;
 }
 html,
 body {
@@ -159,7 +163,134 @@ footer {
 .debug {
   border: 1px solid red;
 }
+
+/* ====================== Typography classes ====================== */
+.text-lg {
+  font-size: calc(var(--fs-default) * 1.25);
+}
+.text-md {
+  font-size: calc(var(--fs-default) * 1.125);
+}
 /* ====================== Components ====================== */
+/* CREDITS: Alexandr Izumenko (https://codepen.io/Izumenko/pen/MpWyXK) */
+.c-loading-icon .container {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  filter: url("#goo");
+  animation: rotate-move 2s ease-in-out infinite;
+}
+
+.c-loading-icon .dot {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #000;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.c-loading-icon .dot-3 {
+  background-color: #f74d75;
+  animation: dot-3-move 2s ease infinite, index 6s ease infinite;
+}
+
+.c-loading-icon .dot-2 {
+  background-color: #10beae;
+  animation: dot-2-move 2s ease infinite, index 6s -4s ease infinite;
+}
+
+.c-loading-icon .dot-1 {
+  background-color: #ffe386;
+  animation: dot-1-move 2s ease infinite, index 6s -2s ease infinite;
+}
+
+@keyframes dot-3-move {
+  20% {
+    transform: scale(1);
+  }
+  45% {
+    transform: translateY(-18px) scale(0.45);
+  }
+  60% {
+    transform: translateY(-90px) scale(0.45);
+  }
+  80% {
+    transform: translateY(-90px) scale(0.45);
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes dot-2-move {
+  20% {
+    transform: scale(1);
+  }
+  45% {
+    transform: translate(-16px, 12px) scale(0.45);
+  }
+  60% {
+    transform: translate(-80px, 60px) scale(0.45);
+  }
+  80% {
+    transform: translate(-80px, 60px) scale(0.45);
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes dot-1-move {
+  20% {
+    transform: scale(1);
+  }
+  45% {
+    transform: translate(16px, 12px) scale(0.45);
+  }
+  60% {
+    transform: translate(80px, 60px) scale(0.45);
+  }
+  80% {
+    transform: translate(80px, 60px) scale(0.45);
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes rotate-move {
+  55% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  80% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes index {
+  0%,
+  100% {
+    z-index: 3;
+  }
+  33.3% {
+    z-index: 2;
+  }
+  66.6% {
+    z-index: 1;
+  }
+}
 .c-emphasis {
   text-align: center;
 }
@@ -267,6 +398,14 @@ p.c-emphasis {
 .c-skip-link:focus {
   top: 0;
 }
+
+.c-img-ph {
+  z-index: var(--img-ph-layer);
+}
+.c-img-ph + img {
+  z-index: var(--img-layer);
+}
+
 /* ====================== Header ====================== */
 
 header {
@@ -301,6 +440,16 @@ nav h1 a {
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
+}
+
+/* ====================== Loading screen ====================== */
+
+.loading-screen {
+  width: 100%;
+  height: 100vh;
+}
+.loading-screen p {
+  padding: 0 var(--default-pad);
 }
 /* ====================== Map ====================== */
 
@@ -597,7 +746,8 @@ select option:checked {
   font-size: calc(var(--fs-default) * 1.2);
 }
 .reviews-container-modal li {
-  margin: calc(var(--default-y-mg) * 2) calc(var(--default-x-mg) * 2) 0      calc(var(--default-x-mg) * 2);
+  margin: calc(var(--default-y-mg) * 2) calc(var(--default-x-mg) * 2) 0
+    calc(var(--default-x-mg) * 2);
   background-color: var(--c-bg-row-default);
   border: 1px solid var(--c-bd-color-row-default);
   padding: calc(var(--default-pad) * 2);
