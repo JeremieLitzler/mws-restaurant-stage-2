@@ -193,7 +193,10 @@ class DBHelper {
     return `./restaurant.html?id=${restaurant.id}`;
   }
   /**
-   * Restaurant image URL.
+   * Restaurant image URL
+   * @param {Object} restaurant
+   * @param {int|null} imgWidth
+   * @param {bool} usePlaceholder
    */
   static imageUrlForRestaurant(
     restaurant,
