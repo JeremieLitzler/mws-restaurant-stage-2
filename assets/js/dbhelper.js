@@ -200,17 +200,15 @@ class DBHelper {
    */
   static imageUrlForRestaurant(
     restaurant,
-    imgWidth = null,
+    imgWidth = 800,
     usePlaceholder = false
   ) {
     const imgFolderPath = `build/img/`;
     if (usePlaceholder) {
       return `assets/img/img-ph-${imgWidth}w.svg`;
     }
-    if (imgWidth !== null) {
-      return `${imgFolderPath}${restaurant.id}-${imgWidth}w.jpg`;
-    }
-    return `${imgFolderPath}${restaurant.id}-better-original.jpg`;
+
+    return `${imgFolderPath}${restaurant.id}-${imgWidth}w.jpg`;
   }
   /**
    * Map marker for a restaurant.

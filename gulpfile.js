@@ -20,7 +20,7 @@ gulp.task("images", function() {
             { width: 480, rename: { suffix: "-480w" } },
             {
               // Compress, strip metadata, and rename original image //used for the index.html across all viewports // //used for the index.html across all viewports
-              rename: { suffix: "-better-original" }
+              rename: { suffix: "-800w" }
             }
           ]
         },

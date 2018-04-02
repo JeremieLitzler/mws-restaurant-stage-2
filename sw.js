@@ -14,7 +14,7 @@
 // Names of the two caches used in this version of the service worker.
 // Change to CACHE_VERSION, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
-const CACHE_VERSION = 1;
+const CACHE_VERSION = 2;
 const PRECACHE = `rreviews-data-v${CACHE_VERSION}`;
 const PRECACHE_IMG = `rreviews-imgs-v${CACHE_VERSION}`;
 const RUNTIME = `rreviews-runtime-v${CACHE_VERSION}`;
@@ -26,6 +26,7 @@ const PRECACHE_URLS = [
   "index.html",
   "restaurant.html",
   "assets/js/app.js",
+  "assets/js/lazysizes.min.js",
   "assets/js/dbhelper.js",
   "assets/js/main.js",
   "assets/js/restaurant_info.js",
@@ -33,33 +34,55 @@ const PRECACHE_URLS = [
   "assets/js/select.change.handler.js",
   "assets/css/styles.css",
   "assets/css/reset.css",
+  "assets/img/img-ph-128w.svg",
+  "assets/img/img-ph-360w.svg",
   "favicon.ico"
 ];
+buildImageUrlsArray = () => {
+  let imgUrls = [];
+  const imgFolderPath = "build/img/";
+  const widths = ["128", "360", "480", "800"];
+  const amountOfPics = 10;
+  for (let index = 1; index <= amountOfPics; index++) {
+    for (const width in widths) {
+      const isOriginalWidth = parseInt(widths[width], 10);
+      imgUrls.push(`${imgFolderPath}${index}-${widths[width]}w.jpg`);
+    }
+  }
+  console.log("ImgUrls", imgUrls);
+  return imgUrls;
+};
 
+cacheUrls = (cacheStore, resourcesToCache) => {
+  caches
+    .open(cacheStore)
+    .then(cache => {
+      console.log(`Cache ${cacheStore} opened!`);
+      for (const url of resourcesToCache) {
+        console.log(`About to cache ${url} at index ${url}`);
+        cache.add(url).catch(err => {
+          console.log(`Cache.add failed for ${url}`, err);
+        });
+      }
+    })
+    .catch(error => {
+      console.log("caches", error);
+    });
+};
+cacheStaticResources = () => {
+  cacheUrls(PRECACHE, PRECACHE_URLS);
+  const imageUrls = buildImageUrlsArray();
+  cacheUrls(PRECACHE_IMG, imageUrls);
+};
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener("install", event => {
   console.log("Installing service worker...");
-  event.waitUntil(
-    caches
-      .open(PRECACHE)
-      .then(cache => {
-        console.log(`Cache ${PRECACHE} opened!`);
-        for (const url of PRECACHE_URLS) {
-          console.log(`About to cache ${url} at index ${url}`);
-          cache.add(url).catch(err => {
-            console.log(`Cache.add failed for ${url}`, err);
-          });
-        }
-      })
-      .catch(error => {
-        console.log("caches", error);
-      })
-  );
+  event.waitUntil(cacheStaticResources());
 });
 
 // The activate handler takes care of cleaning up old caches.
 self.addEventListener("activate", event => {
-  const currentCaches = [PRECACHE, RUNTIME];
+  const currentCaches = [PRECACHE, PRECACHE_IMG, RUNTIME];
   console.log(`Activating service worker with CACHE ${PRECACHE}`);
   event.waitUntil(
     caches
@@ -88,7 +111,7 @@ self.addEventListener("fetch", event => {
   const requestUrl = event.request.url;
   if (requestUrl.endsWith("offline.html")) {
     //Do not catchoffline.html.
-    //It is used to detect if the user isn't connected to any netword
+    //It is used to detect if the user isn't connected to any network
     return;
   }
   if (requestUrl.startsWith(self.location.origin)) {
@@ -101,6 +124,7 @@ self.addEventListener("fetch", event => {
         if (requestUrl.endsWith("jpg")) {
           targetCache = RUNTIME_IMG;
         }
+        console.log(`Looking up into ${targetCache}`);
         return caches
           .open(targetCache)
           .then(cache => {
