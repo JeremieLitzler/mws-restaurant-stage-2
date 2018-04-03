@@ -47,7 +47,6 @@ gulp.task("images", () => {
     .pipe(gulp.dest("build/img"));
 });
 
-<<<<<<< HEAD
 gulp.task("optim-css", () => {
   gulp
     .src("assets/css/**/*.css")
@@ -105,20 +104,6 @@ gulp.task("optim-js-restaurant-page", errorHandle => {
     ],
     errorHandle
   );
-=======
-gulp.task('processcss', () => {
-    gulp.src('assets/css/**/*.css')
-        //.pipe(sourcemaps.init())
-        .pipe(autoprefixer())
-        .pipe(uglifycss({
-          "maxLineLen": 80,
-          "uglyComments": true
-        }))
-        .pipe(concat('all.css'))
-        //.pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('build/css'));
-
->>>>>>> 62f5c87630301877a0bc9ce0863376403cb2c8eb
 });
 
 //https://stackoverflow.com/a/28460016
