@@ -1,5 +1,4 @@
 const gulp = require("gulp");
-<<<<<<< HEAD
 const browserSync = require("browser-sync").create();
 const $ = require("gulp-load-plugins")();
 const pump = require("pump");
@@ -9,13 +8,6 @@ const concat = require("gulp-concat");
 const uglifycss = require("gulp-uglifycss");
 let rename = require("gulp-rename");
 let uglify = require("gulp-uglify-es").default;
-=======
-const $ = require("gulp-load-plugins")();
-//const sourcemaps = require('gulp-sourcemaps');
-const autoprefixer = require('gulp-autoprefixer');
-const concat = require('gulp-concat');
-const uglifycss = require('gulp-uglifycss');
->>>>>>> 62f5c87630301877a0bc9ce0863376403cb2c8eb
 
 gulp.task("images", () => {
   return gulp
