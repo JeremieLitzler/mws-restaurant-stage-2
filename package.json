@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
 	"name": "mws-nd-2018-stage-1",
 	"version": "1.0.0",
 	"description": "Restaurant Reviews app with Udacity MWS ND 2018",
@@ -32,4 +33,34 @@
 		"pump": "^3.0.0"
 	},
 	"dependencies": {}
+=======
+  "name": "mws-nd-2018-stage-1",
+  "version": "1.0.0",
+  "description": "Restaurant Reviews app with Udacity MWS ND 2018",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeremieLitzler/mws-restaurant-stage-1.git"
+  },
+  "author": "JL",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JeremieLitzler/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/JeremieLitzler/mws-restaurant-stage-1#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-clean-css": "^3.9.3",
+    "gulp-concat": "^2.6.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-responsive": "^2.9.0",
+    "gulp-rev": "^8.1.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglifycss": "^1.0.9"
+  }
+>>>>>>> 62f5c87630301877a0bc9ce0863376403cb2c8eb
 }

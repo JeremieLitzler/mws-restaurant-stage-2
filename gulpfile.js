@@ -1,4 +1,5 @@
 const gulp = require("gulp");
+<<<<<<< HEAD
 const browserSync = require("browser-sync").create();
 const $ = require("gulp-load-plugins")();
 const pump = require("pump");
@@ -8,6 +9,13 @@ const concat = require("gulp-concat");
 const uglifycss = require("gulp-uglifycss");
 let rename = require("gulp-rename");
 let uglify = require("gulp-uglify-es").default;
+=======
+const $ = require("gulp-load-plugins")();
+//const sourcemaps = require('gulp-sourcemaps');
+const autoprefixer = require('gulp-autoprefixer');
+const concat = require('gulp-concat');
+const uglifycss = require('gulp-uglifycss');
+>>>>>>> 62f5c87630301877a0bc9ce0863376403cb2c8eb
 
 gulp.task("images", () => {
   return gulp
@@ -39,6 +47,7 @@ gulp.task("images", () => {
     .pipe(gulp.dest("build/img"));
 });
 
+<<<<<<< HEAD
 gulp.task("optim-css", () => {
   gulp
     .src("assets/css/**/*.css")
@@ -96,6 +105,20 @@ gulp.task("optim-js-restaurant-page", errorHandle => {
     ],
     errorHandle
   );
+=======
+gulp.task('processcss', () => {
+    gulp.src('assets/css/**/*.css')
+        //.pipe(sourcemaps.init())
+        .pipe(autoprefixer())
+        .pipe(uglifycss({
+          "maxLineLen": 80,
+          "uglyComments": true
+        }))
+        .pipe(concat('all.css'))
+        //.pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('build/css'));
+
+>>>>>>> 62f5c87630301877a0bc9ce0863376403cb2c8eb
 });
 
 //https://stackoverflow.com/a/28460016
