@@ -31,4 +31,9 @@ Then:
 * Install Gulp CLI: `npm install --save-dev gulp-cli -g`
 * Install Gulp: `npm install --save-dev gulp -D`
 * Install Gulp responsive images: `npm install --save-dev gulp-responsive`
+* Install Gulp sourcemaps: `npm install --save-dev gulp-sourcemaps`
+* Install Gulp autoprefixer: `npm install --save-dev gulp-autoprefixer`
+* Install Gulp concat: `npm install --save-dev gulp-concat`
+* Install Gulp uglifycss: `npm install --save-dev gulp-uglifycss`
+
 * Run `gulp default` to generate the images

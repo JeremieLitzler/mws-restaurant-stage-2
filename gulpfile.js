@@ -1,12 +1,11 @@
-const gulp = require("gulp"),
-  $ = require("gulp-load-plugins")();
-gulp.task("default", () =>
-  gulp
-    .src("src/*.css")
-    .pipe(rev())
-    .pipe(gulp.dest("dist"))
-);
-gulp.task("images", function() {
+const gulp = require("gulp");
+const $ = require("gulp-load-plugins")();
+//const sourcemaps = require('gulp-sourcemaps');
+const autoprefixer = require('gulp-autoprefixer');
+const concat = require('gulp-concat');
+const uglifycss = require('gulp-uglifycss');
+
+gulp.task("images", () => {
   return gulp
     .src("assets/img/*.{jpg,png}")
     .pipe(
@@ -34,6 +33,20 @@ gulp.task("images", function() {
       )
     ) // Use progressive (interlace) scan for JPEG and PNG output // Strip all metadata
     .pipe(gulp.dest("build/img"));
+});
+
+gulp.task('processcss', () => {
+    gulp.src('assets/css/**/*.css')
+        //.pipe(sourcemaps.init())
+        .pipe(autoprefixer())
+        .pipe(uglifycss({
+          "maxLineLen": 80,
+          "uglyComments": true
+        }))
+        .pipe(concat('all.css'))
+        //.pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('build/css'));
+
 });
 
 //https://stackoverflow.com/a/28460016
