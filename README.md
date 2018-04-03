@@ -25,6 +25,8 @@ npm install --save gulp-responsive #Install Gulp responsive images
 npm install --save-dev gulp-autoprefixer #Install Gulp autoprefixer
 npm install --save-dev gulp-concat #Install Gulp concat
 npm install --save-dev gulp-uglifycss #Install Gulp uglifycss
+npm install --save-dev gulp-rename # Install Gulp rename
+npm install --save-dev gulp-uglify-es #Install Gulp uglify for ES6
 
 * Run `gulp default` to generate the images
 ```

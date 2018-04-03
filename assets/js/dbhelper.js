@@ -9,8 +9,8 @@ class DBHelper {
   static get DATABASE_URL() {
     const sslActive = location.protocol.indexOf("https") !== -1;
     const jsonUrl = sslActive
-      ? `${location.origin}:443/${appAlias}/data/restaurants.json`
-      : `${location.origin}/${appAlias}/data/restaurants.json`;
+      ? `${location.origin}:443/data/restaurants.json`
+      : `${location.origin}/data/restaurants.json`;
     console.log(jsonUrl);
     return jsonUrl;
   }

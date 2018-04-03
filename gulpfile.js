@@ -1,9 +1,13 @@
 const gulp = require("gulp");
+const browserSync = require("browser-sync").create();
 const $ = require("gulp-load-plugins")();
+const pump = require("pump");
 //const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require("gulp-autoprefixer");
 const concat = require("gulp-concat");
 const uglifycss = require("gulp-uglifycss");
+let rename = require("gulp-rename");
+let uglify = require("gulp-uglify-es").default;
 
 gulp.task("images", () => {
   return gulp
@@ -35,7 +39,7 @@ gulp.task("images", () => {
     .pipe(gulp.dest("build/img"));
 });
 
-gulp.task("processcss", () => {
+gulp.task("optim-css", () => {
   gulp
     .src("assets/css/**/*.css")
     //.pipe(sourcemaps.init())
@@ -46,10 +50,58 @@ gulp.task("processcss", () => {
         uglyComments: true
       })
     )
-    .pipe(concat("all.css"))
+    .pipe(concat("styles.css"))
     //.pipe(sourcemaps.write('.'))
     .pipe(gulp.dest("build/css"));
 });
+let jsCommonFiles = [
+  "./assets/js/app.js",
+  "./assets/js/lazysizes.min.js",
+  "./assets/js/dbhelper.js",
+  "./assets/js/focus.handler.js"
+];
+let jsFilesIndexPage = [
+  "./assets/js/select.change.handler.js",
+  "./assets/js/main.js"
+];
+
+const finalJsFilesIndexPage = [...jsCommonFiles, ...jsFilesIndexPage];
+console.log("JS files to optimise for index page", finalJsFilesIndexPage);
+gulp.task("optim-js-index-page", errorHandle => {
+  pump(
+    [
+      gulp.src(finalJsFilesIndexPage),
+      concat("index.bundle.js"),
+      uglify(),
+      rename("index.bundle.min.js"),
+      gulp.dest("build/js"),
+      browserSync.reload({ stream: true })
+    ],
+    errorHandle
+  );
+});
+
+let jsFilesRestaurantPage = ["assets/js/restaurant_info.js"];
+const finalJsFilesRestaurantPage = [...jsCommonFiles, ...jsFilesRestaurantPage];
+console.log("JS files to optimise for index page", finalJsFilesRestaurantPage);
+gulp.task("optim-js-restaurant-page", errorHandle => {
+  pump(
+    [
+      gulp.src(finalJsFilesRestaurantPage),
+      concat("restaurant.bundle.js"),
+      uglify(),
+      rename("restaurant.bundle.min.js"),
+      gulp.dest("build/js"),
+      browserSync.reload({ stream: true })
+    ],
+    errorHandle
+  );
+});
 
 //https://stackoverflow.com/a/28460016
-gulp.task("default", ["images"]);
+gulp.task("default", [
+  "images",
+  "optim-css",
+  "optim-js-index-page",
+  "optim-js-restaurant-page"
+]);
