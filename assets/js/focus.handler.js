@@ -36,12 +36,13 @@ function openModal() {
         closeModal(targetModal);
     });
     //Find all focusable children that we can find in the modal.
-    const focusableElementsString =
-        `a[href], area[href],
+    const focusableElementsString = `a[href], area[href],
   input:not([disabled]), select:not([disabled]),
   textarea:not([disabled]), button:not([disabled]), iframe,
   object, embed, [tabindex="0"], [contenteditable]`;
-    let focusableElements = targetModal.querySelectorAll(focusableElementsString);
+    let focusableElements = targetModal.querySelectorAll(
+        focusableElementsString
+    );
     //Convert NodeList to Array
     focusableElements = Array.prototype.slice.call(focusableElements);
     //Get the first item in the modal's focusable elements that we will use as sentinals
@@ -80,15 +81,15 @@ function openModal() {
 }
 
 function findTargetModal(clickedBtn) {
-    const openModalBtnClassesArray = Array.prototype.slice.call(clickedBtn.classList);
-    const targetModalClass = openModalBtnClassesArray[openModalBtnClassesArray.length - 1];
+    const openModalBtnClassesArray = Array.prototype.slice.call(
+        clickedBtn.classList
+    );
+    const targetModalClass =
+        openModalBtnClassesArray[openModalBtnClassesArray.length - 1];
     const availableModals = document.querySelectorAll(".c-modal");
-    //console.log("availableModals", availableModals);
-    let targetModal;
     for (const modal of availableModals) {
         const modalClassArray = Array.prototype.slice.call(modal.classList);
         if (modalClassArray.includes(targetModalClass)) {
-            //console.log("found target", targetModal);
             return modal;
         }
     }
