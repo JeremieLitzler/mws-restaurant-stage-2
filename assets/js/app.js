@@ -67,7 +67,7 @@ window.addEventListener("load", () => {
     for (const link of homeLinks) {
         link.href = "./";
     }
-    this.fetch("assets/offline.html").catch(response => {
+    this.fetch("./offline.html").catch(response => {
         if (response.name === "TypeError") {
             //Show the placeholder and hide the map element
             let mapOfflineMsgBlock = document.querySelector(

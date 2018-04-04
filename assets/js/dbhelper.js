@@ -213,9 +213,9 @@ class DBHelper {
         imgWidth = 800,
         usePlaceholder = false
     ) {
-        const imgFolderPath = "build/img/";
+        const imgFolderPath = "./img/";
         if (usePlaceholder) {
-            return `assets/img/img-ph-${imgWidth}w.svg`;
+            return `./img/img-ph-${imgWidth}w.svg`;
         }
 
         return `${imgFolderPath}${restaurant.id}-${imgWidth}w.jpg`;
