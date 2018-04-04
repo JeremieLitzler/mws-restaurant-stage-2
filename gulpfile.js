@@ -16,9 +16,8 @@ gulp.task("js-lint", () => {
     return (
         gulp
             .src([
-                "**/*.js",
+                "./assets/js/*.js",
                 "!node_modules/**",
-                "!build/js/**",
                 "!assets/js/lazysizes**"
             ])
             // eslint() attaches the lint output to the "eslint" property
@@ -129,10 +128,20 @@ gulp.task("optim-js-restaurant-page", errorHandle => {
 });
 
 //https://stackoverflow.com/a/28460016
-gulp.task("default", [
-    //"js-lint",
-    "images",
-    "optim-css",
-    "optim-js-index-page",
-    "optim-js-restaurant-page"
-]);
+gulp.task(
+    "default",
+    [
+        //"js-lint",
+        "images",
+        "optim-css",
+        "optim-js-index-page",
+        "optim-js-restaurant-page"
+    ],
+    () => {
+        gulp.watch("./assets/js/**/*.js", ["js-lint"]);
+        gulp.watch("./assets/css/**/*.css", ["optim-css"]);
+        browserSync.init({
+            server: "http://localhost:8000"
+        });
+    }
+);

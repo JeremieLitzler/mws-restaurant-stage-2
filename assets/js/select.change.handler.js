@@ -1,6 +1,3 @@
-let dropdownSelected;
-let neighborhoodSelect = document.getElementById("neighborhoods-select");
-let cuisineSelect = document.getElementById("cuisines-select");
 const applyFiltersBtn = document.querySelector(".js-apply-filters");
 applyFiltersBtn.addEventListener("click", applyFilters);
 
