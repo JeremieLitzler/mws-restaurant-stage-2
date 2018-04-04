@@ -36,10 +36,10 @@ gulp.task("js-lint", () => {
 });
 
 /**
- * Copy the service worker source file into the root of build folder
+ * Copy the any files at the root of the project into the root of build folder
  */
-gulp.task("copy-sw", () => {
-    gulp.src(["./sw.js"]).pipe(gulp.dest("./build"));
+gulp.task("copy-root", () => {
+    gulp.src(["./sw.js", "./favicon.ico"]).pipe(gulp.dest("./build"));
 });
 /**
  * Copy the html source files into the root of build folder
@@ -74,7 +74,7 @@ gulp.task("copy-img-ph", () => {
 });
 
 gulp.task("copy-all", [
-    "copy-sw",
+    "copy-root",
     "copy-html",
     "copy-json",
     "copy-icons",
@@ -204,7 +204,7 @@ gulp.task("optim-js-restaurant-page", errorHandle => {
  *     - optimize the css
  *     - optimize the javascript
  *
- * Finally, some watches allow to run the css and javascript tasks as changes happen and browsersync automatically refreshes the current page.
+ * Finally, some watches allow to run the css and javascript tasks as changes happen and browsersync automatically refreshes the current pageg.
  *
  */
 //https://stackoverflow.com/a/28460016

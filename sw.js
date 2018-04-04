@@ -14,7 +14,7 @@
 // Names of the two caches used in this version of the service worker.
 // Change to CACHE_VERSION, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
-const CACHE_VERSION = 1;
+const CACHE_VERSION = 2;
 const PRECACHE = `rreviews-data-v${CACHE_VERSION}`;
 const PRECACHE_IMG = `rreviews-imgs-v${CACHE_VERSION}`;
 const RUNTIME = `rreviews-runtime-v${CACHE_VERSION}`;
@@ -23,8 +23,8 @@ const RUNTIME_IMG = `rreviews-runtime-img-v${CACHE_VERSION}`;
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
     "./",
-    "index.html",
-    "restaurant.html",
+    "./index.html",
+    "./restaurant.html",
     /*"assets/js/app.js",
     "assets/js/lazysizes.min.js",
     "assets/js/dbhelper.js",
@@ -32,18 +32,18 @@ const PRECACHE_URLS = [
     "assets/js/restaurant_info.js",
     "assets/js/focus.handler.js",
     "assets/js/select.change.handler.js",*/
-    "build/js/index.bundle.min.js",
-    "build/js/restaurant.bundle.min.js",
+    "./js/index.bundle.min.js",
+    "./js/restaurant.bundle.min.js",
     /*"assets/css/styles.css",
     "assets/css/reset.css",*/
-    "build/css/styles.css",
-    "assets/img/img-ph-128w.svg",
-    "assets/img/img-ph-360w.svg",
+    "./css/styles.css",
+    "./img/img-ph-128w.svg",
+    "./img/img-ph-360w.svg",
     "favicon.ico"
 ];
 const buildImageUrlsArray = () => {
     let imgUrls = [];
-    const imgFolderPath = "build/img/";
+    const imgFolderPath = "./img/";
     const widths = ["128", "360", "480", "800"];
     const amountOfPics = 10;
     for (let index = 1; index <= amountOfPics; index++) {
