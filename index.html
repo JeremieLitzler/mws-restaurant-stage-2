@@ -138,6 +138,21 @@
     </script>
     <script charset="utf-8" src="assets/js/select.change.handler.js" type="application/javascript">
     </script> -->
-    <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXysE433qRY0W9gup0-_N5UF_0ObJK3oc&libraries=places&callback=initMap">
+    <!-- Initialize Google map, called from HTML. -->
+    <script type="application/javascript">
+        window.initMap = function () {
+            let loc = {
+                lat: 40.722216,
+                lng: -73.987501
+            };
+            self.map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: loc,
+                scrollwheel: false
+            });
+            updateRestaurants();
+        };
+    </script>
+    <script type="application/javascript" async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXysE433qRY0W9gup0-_N5UF_0ObJK3oc&libraries=places&callback=initMap">
     </script>
 </body>

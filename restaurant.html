@@ -115,6 +115,24 @@
     <script charset="utf-8" src="./js/focus.handler.js" type="application/javascript">
     </script> -->
     <!-- Google Maps -->
+    <script type="application/javascript">
+        window.initMap = function () {
+            fetchRestaurantFromURL((error, restaurant) => {
+                if (error) {
+                    // Got an error!
+                    console.error(error);
+                } else {
+                    self.map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 16,
+                        center: restaurant.latlng,
+                        scrollwheel: false
+                    });
+                    fillBreadcrumb();
+                    DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+                }
+            });
+        };
+    </script>
     <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXysE433qRY0W9gup0-_N5UF_0ObJK3oc&libraries=places&callback=initMap">
     </script>
     <!-- End scripts -->
