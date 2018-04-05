@@ -209,7 +209,7 @@ gulp.task("optim-js-restaurant-page", errorHandle => {
  */
 //https://stackoverflow.com/a/28460016
 gulp.task(
-    "default-dev",
+    "default",
     [
         //"js-lint",
         "copy-all",
