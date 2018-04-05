@@ -1,7 +1,6 @@
 /*eslint-env node */
 
 const gulp = require("gulp");
-const browserSync = require("browser-sync").create();
 //const sourcemaps = require('gulp-sourcemaps');
 const concat = require("gulp-concat");
 let rename = require("gulp-rename");
@@ -21,7 +20,8 @@ gulp.task("js-lint", () => {
             .src([
                 "./assets/js/*.js",
                 "!node_modules/**",
-                "!assets/js/lazysizes**"
+                "!assets/js/lazysizes**",
+                "!build/js/io.min.js"
             ])
             // eslint() attaches the lint output to the "eslint" property
             // of the file object so it can be used by other modules.
@@ -39,7 +39,14 @@ gulp.task("js-lint", () => {
  * Copy the any files at the root of the project into the root of build folder
  */
 gulp.task("copy-root", () => {
-    gulp.src(["./sw.js", "./favicon.ico"]).pipe(gulp.dest("./build"));
+    gulp
+        .src([
+            "./sw.js",
+            "./favicon.ico",
+            "./site.webmanifest",
+            "./browserconfig.xml"
+        ])
+        .pipe(gulp.dest("./build"));
 });
 /**
  * Copy the html source files into the root of build folder
@@ -138,6 +145,26 @@ gulp.task("optim-css", () => {
 });
 
 /**
+ * Generate the critical css and inline it in the pages
+ */
+const critical = require("critical");
+gulp.task("critical-css", ["optim-css"], function() {
+    critical
+        .generate({
+            inline: true,
+            base: "./build",
+            src: "index.html",
+            dest: "index.html",
+            minify: true,
+            width: 320,
+            height: 480
+        })
+        .catch(err => {
+            console.error("gulp task critical failed", err);
+        });
+});
+
+/**
  * Optimize the javascript for the index page by:
  *     - declaring the files in the proper order.
  *     - minifying the javascript code.
@@ -160,7 +187,7 @@ let jsFilesIndexPage = [
 ];
 
 const finalJsFilesIndexPage = [...jsCommonFiles, ...jsFilesIndexPage];
-console.log("JS files to optimise for index page", finalJsFilesIndexPage);
+//console.log("JS files to optimise for index page", finalJsFilesIndexPage);
 gulp.task("optim-js-index-page", errorHandle => {
     pump(
         [
@@ -182,7 +209,7 @@ gulp.task("optim-js-index-page", errorHandle => {
  */
 let jsFilesRestaurantPage = ["assets/js/restaurant_info.js"];
 const finalJsFilesRestaurantPage = [...jsCommonFiles, ...jsFilesRestaurantPage];
-console.log("JS files to optimise for index page", finalJsFilesRestaurantPage);
+//console.log("JS files to optimise for index page", finalJsFilesRestaurantPage);
 gulp.task("optim-js-restaurant-page", errorHandle => {
     pump(
         [
@@ -198,6 +225,30 @@ gulp.task("optim-js-restaurant-page", errorHandle => {
 });
 
 /**
+ * Minify the intersection observer library and put it the build folder
+ */
+const intersectionObserverFile =
+    "./node_modules/intersection-observer/intersection-observer.js";
+//console.log("JS files to optimise for index page", finalJsFilesRestaurantPage);
+gulp.task("optim-js-io", errorHandle => {
+    pump(
+        [
+            gulp.src(intersectionObserverFile),
+            uglify(),
+            rename("io.min.js"),
+            gulp.dest("build/js"),
+            browserSync.reload({ stream: true })
+        ],
+        errorHandle
+    );
+});
+
+gulp.task("scripts", [
+    "optim-js-index-page",
+    "optim-js-restaurant-page",
+    "optim-js-io"
+]);
+/**
  * Default gulp task for development environnement that includes:
  *     - copying all the static files
  *     - optimize the images
@@ -208,15 +259,16 @@ gulp.task("optim-js-restaurant-page", errorHandle => {
  *
  */
 //https://stackoverflow.com/a/28460016
+const compress = require("compression");
+const browserSync = require("browser-sync").create();
 gulp.task(
     "default",
     [
         //"js-lint",
         "copy-all",
         "optim-images",
-        "optim-css",
-        "optim-js-index-page",
-        "optim-js-restaurant-page"
+        "critical-css",
+        "scripts"
     ],
     () => {
         gulp.watch("./assets/js/**/*.js", ["js-lint"]);
@@ -224,7 +276,11 @@ gulp.task(
         browserSync.init({
             files: ["build/**/*.*"],
             server: {
-                baseDir: "./build"
+                baseDir: "./build",
+                middleware: function(req, res, next) {
+                    var gzip = compress();
+                    gzip(req, res, next);
+                }
             },
             port: 8001
         });
@@ -246,7 +302,6 @@ gulp.task("default-prod", [
     //"js-lint",
     "copy-all",
     "optim-images",
-    "optim-css",
-    "optim-js-index-page",
-    "optim-js-restaurant-page"
+    "critical-css",
+    "scripts"
 ]);

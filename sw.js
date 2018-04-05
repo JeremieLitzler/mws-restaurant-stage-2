@@ -14,7 +14,7 @@
 // Names of the two caches used in this version of the service worker.
 // Change to CACHE_VERSION, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
-const CACHE_VERSION = 3;
+const CACHE_VERSION = 1;
 const PRECACHE = `rreviews-data-v${CACHE_VERSION}`;
 const PRECACHE_IMG = `rreviews-imgs-v${CACHE_VERSION}`;
 const RUNTIME = `rreviews-runtime-v${CACHE_VERSION}`;
@@ -25,17 +25,9 @@ const PRECACHE_URLS = [
     "./",
     "./index.html",
     "./restaurant.html",
-    /*"assets/js/app.js",
-    "assets/js/lazysizes.min.js",
-    "assets/js/dbhelper.js",
-    "assets/js/main.js",
-    "assets/js/restaurant_info.js",
-    "assets/js/focus.handler.js",
-    "assets/js/select.change.handler.js",*/
+    "./js/io.min.js",
     "./js/index.bundle.min.js",
     "./js/restaurant.bundle.min.js",
-    /*"assets/css/styles.css",
-    "assets/css/reset.css",*/
     "./css/styles.css",
     "./img/img-ph-128w.svg",
     "./img/img-ph-360w.svg",

@@ -23,6 +23,10 @@
     <meta name="application-name" content="Restaurant reviews" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
+    <script>
+        /*! loadJS: load a JS file asynchronously. [c]2014 @scottjehl, Filament Group, Inc. (Based on http://goo.gl/REQGQ by Paul Irish). Licensed MIT */
+        !function (e) { var t = function (t, n) { "use strict"; var o = e.document.getElementsByTagName("script")[0], r = e.document.createElement("script"); return r.src = t, r.async = !0, o.parentNode.insertBefore(r, o), n && "function" == typeof n && (r.onload = n), r }; "undefined" != typeof module ? module.exports = t : e.loadJS = t }("undefined" != typeof global ? global : this);
+    </script>>
 </head>
 
 <body class="inside">
@@ -106,17 +110,12 @@
 
     <script charset="utf-8" src="./js/restaurant.bundle.min.js" type="application/javascript">
     </script>
-    <!-- <script charset="utf-8" src="./js/app.js" type="application/javascript">
-    </script>
-    <script src="./js/dbhelper.js" type="text/javascript">
-    </script>
-    <script src="./js/restaurant_info.js" type="text/javascript">
-    </script>
-    <script charset="utf-8" src="./js/focus.handler.js" type="application/javascript">
-    </script> -->
     <!-- Google Maps -->
-    <script type="application/javascript">
-        window.initMap = function () {
+    <script>
+        /* Licence: under a Creative Commons Attribution 4.0 International License - Walter Ebert (https://walterebert.com/blog/lazy-loading-google-maps-with-the-intersection-observer-api/) */
+        function google_maps_init() {
+            'use strict'
+
             fetchRestaurantFromURL((error, restaurant) => {
                 if (error) {
                     // Got an error!
@@ -131,9 +130,36 @@
                     DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
                 }
             });
-        };
-    </script>
-    <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXysE433qRY0W9gup0-_N5UF_0ObJK3oc&libraries=places&callback=initMap">
+        }
+
+        function google_maps_lazyload(api_key) {
+            'use strict'
+
+            if (api_key) {
+                var options = {
+                    rootMargin: '100px',
+                    threshold: 0
+                }
+
+                var map = document.getElementById('map')
+
+                var observer = new IntersectionObserver(
+                    function (entries, self) {
+                        // Intersecting with Edge workaround https://calendar.perfplanet.com/2017/progressive-image-loading-using-intersection-observer-and-sqip/#comment-102838
+                        var isIntersecting = typeof entries[0].isIntersecting === 'boolean' ? entries[0].isIntersecting : entries[0].intersectionRatio > 0
+                        if (isIntersecting) {
+                            loadJS('https://maps.googleapis.com/maps/api/js?callback=google_maps_init&key=' + api_key)
+                            self.unobserve(map)
+                        }
+                    },
+                    options
+                )
+
+                observer.observe(map)
+            }
+        }
+
+        google_maps_lazyload("AIzaSyBXysE433qRY0W9gup0-_N5UF_0ObJK3oc")
     </script>
     <!-- End scripts -->
 </body>
