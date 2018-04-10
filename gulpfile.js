@@ -3,7 +3,8 @@
 const gulp = require("gulp");
 //const sourcemaps = require('gulp-sourcemaps');
 const concat = require("gulp-concat");
-let rename = require("gulp-rename");
+const rename = require("gulp-rename");
+const babel = require("gulp-babel");
 
 /**
  * ESlint task checks the javascript files found in ./assets/js folder and subfolders.
@@ -56,14 +57,12 @@ gulp.task("copy-html", () => {
         .src(["./index.html", "./restaurant.html", "./assets/offline.html"])
         .pipe(gulp.dest("./build"));
 });
-
 /**
  * Copy the json data file into the build folder
  */
 gulp.task("copy-json", () => {
     gulp.src(["./data/restaurants.json"]).pipe(gulp.dest("./build/data"));
 });
-
 /**
  * Copy the icons into the build folder
  */
@@ -80,6 +79,9 @@ gulp.task("copy-img-ph", () => {
     gulp.src("./assets/img/*.svg").pipe(gulp.dest("./build/img"));
 });
 
+/**
+ * Run the copy tasks of the static assets into one task.
+ */
 gulp.task("copy-static-assets", [
     "copy-root",
     "copy-html",
@@ -87,6 +89,7 @@ gulp.task("copy-static-assets", [
     "copy-icons",
     "copy-img-ph"
 ]);
+
 /**
  * Images task takes care of transforming the original images into the optimised images and creates the requested sizes for better responsiveness
  */
@@ -192,6 +195,7 @@ gulp.task("optim-js-index-page", callback => {
     pump(
         [
             gulp.src(finalJsFilesIndexPage),
+            babel(),
             concat("index.bundle.js"),
             uglify(),
             rename("index.bundle.min.js"),
@@ -214,6 +218,7 @@ gulp.task("optim-js-restaurant-page", callback => {
     pump(
         [
             gulp.src(finalJsFilesRestaurantPage),
+            babel(),
             concat("restaurant.bundle.js"),
             uglify(),
             rename("restaurant.bundle.min.js"),
@@ -254,9 +259,6 @@ gulp.task("scripts", [
  *     - optimize the images
  *     - optimize the css
  *     - optimize the javascript
- *
- * Finally, some watches allow to run the css and javascript tasks as changes happen and browsersync automatically refreshes the current pageg.
- *
  */
 //https://stackoverflow.com/a/28460016
 const compress = require("compression");
@@ -293,11 +295,7 @@ gulp.task(
  *     - optimize the images
  *     - optimize the css
  *     - optimize the javascript
- *
- * On the dev environnement, some watches allow to run the css and javascript tasks.
- *
  */
-//https://stackoverflow.com/a/28460016
 gulp.task("go-live", [
     //"js-lint",
     "copy-static-assets",
