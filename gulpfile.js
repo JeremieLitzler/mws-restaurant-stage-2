@@ -80,7 +80,7 @@ gulp.task("copy-img-ph", () => {
     gulp.src("./assets/img/*.svg").pipe(gulp.dest("./build/img"));
 });
 
-gulp.task("copy-all", [
+gulp.task("copy-static-assets", [
     "copy-root",
     "copy-html",
     "copy-json",
@@ -126,22 +126,23 @@ gulp.task("optim-images", () => {
  *     - adding the browser specific prefixes.
  *     - minifying the css.
  */
+const pump = require("pump");
 const autoprefixer = require("gulp-autoprefixer");
 const uglifycss = require("gulp-uglifycss");
-gulp.task("optim-css", () => {
-    gulp
-        .src("assets/css/**/*.css")
-        //.pipe(sourcemaps.init())
-        .pipe(autoprefixer())
-        .pipe(
-            uglifycss({
+gulp.task("optim-css", callback => {
+      pump(
+        [
+          gulp.src("assets/css/**/*.css"),
+          autoprefixer(),
+          uglifycss({
                 maxLineLen: 80,
                 uglyComments: true
-            })
-        )
-        .pipe(concat("styles.css"))
-        //.pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest("build/css"));
+            }),
+          concat("styles.css"),
+          gulp.dest("build/css")
+      ],
+        callback
+    );
 });
 
 /**
@@ -169,7 +170,6 @@ gulp.task("critical-css", ["optim-css"], function() {
  *     - declaring the files in the proper order.
  *     - minifying the javascript code.
  */
-const pump = require("pump");
 let uglify = require("gulp-uglify-es").default;
 /**
  * jsCommonFiles is the list of javascript files that are common to both index and restaurant pages.
@@ -188,7 +188,7 @@ let jsFilesIndexPage = [
 
 const finalJsFilesIndexPage = [...jsCommonFiles, ...jsFilesIndexPage];
 //console.log("JS files to optimise for index page", finalJsFilesIndexPage);
-gulp.task("optim-js-index-page", errorHandle => {
+gulp.task("optim-js-index-page", callback => {
     pump(
         [
             gulp.src(finalJsFilesIndexPage),
@@ -198,7 +198,7 @@ gulp.task("optim-js-index-page", errorHandle => {
             gulp.dest("build/js"),
             browserSync.reload({ stream: true })
         ],
-        errorHandle
+        callback
     );
 });
 
@@ -210,7 +210,7 @@ gulp.task("optim-js-index-page", errorHandle => {
 let jsFilesRestaurantPage = ["assets/js/restaurant_info.js"];
 const finalJsFilesRestaurantPage = [...jsCommonFiles, ...jsFilesRestaurantPage];
 //console.log("JS files to optimise for index page", finalJsFilesRestaurantPage);
-gulp.task("optim-js-restaurant-page", errorHandle => {
+gulp.task("optim-js-restaurant-page", callback => {
     pump(
         [
             gulp.src(finalJsFilesRestaurantPage),
@@ -220,7 +220,7 @@ gulp.task("optim-js-restaurant-page", errorHandle => {
             gulp.dest("build/js"),
             browserSync.reload({ stream: true })
         ],
-        errorHandle
+        callback
     );
 });
 
@@ -230,7 +230,7 @@ gulp.task("optim-js-restaurant-page", errorHandle => {
 const intersectionObserverFile =
     "./node_modules/intersection-observer/intersection-observer.js";
 //console.log("JS files to optimise for index page", finalJsFilesRestaurantPage);
-gulp.task("optim-js-io", errorHandle => {
+gulp.task("optim-js-io", callback => {
     pump(
         [
             gulp.src(intersectionObserverFile),
@@ -239,7 +239,7 @@ gulp.task("optim-js-io", errorHandle => {
             gulp.dest("build/js"),
             browserSync.reload({ stream: true })
         ],
-        errorHandle
+        callback
     );
 });
 
@@ -265,7 +265,7 @@ gulp.task(
     "default",
     [
         //"js-lint",
-        "copy-all",
+        "copy-static-assets",
         "optim-images",
         "critical-css",
         "scripts"
@@ -298,9 +298,9 @@ gulp.task(
  *
  */
 //https://stackoverflow.com/a/28460016
-gulp.task("default-prod", [
+gulp.task("go-live", [
     //"js-lint",
-    "copy-all",
+    "copy-static-assets",
     "optim-images",
     "critical-css",
     "scripts"

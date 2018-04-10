@@ -19,7 +19,11 @@ Then run:
 
 ```sh
 npm i -g serve
-npm i --save-dev gulp-cli -g #Install Gulp CLI
+npm i -g pump #Install Pump
+npm i -g compression #Install Compression
+npm i -g browser-sync
+npm i --save-dev critical --save-dev #Install Css critical finder
+npm i -g gulp-cli #Install Gulp CLI
 npm i --save-dev gulp -D #Install Gulp
 npm i --save-dev gulp-eslint # Install Gulp Eslint
 npm i --save gulp-responsive #Install Gulp responsive images

@@ -1,41 +1,42 @@
 {
-	"name": "mws-nd-2018-stage-1",
-	"version": "1.0.0",
-	"description": "Restaurant Reviews app with Udacity MWS ND 2018",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/JeremieLitzler/mws-restaurant-stage-1.git"
-	},
-	"author": "JL",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/JeremieLitzler/mws-restaurant-stage-1/issues"
-	},
-	"homepage": "https://github.com/JeremieLitzler/mws-restaurant-stage-1#readme",
-	"devDependencies": {
-		"browser-sync": "^2.23.6",
-		"compression": "^1.7.2",
-		"gulp": "^3.9.1",
-		"gulp-autoprefixer": "^5.0.0",
-		"gulp-clean-css": "^3.9.3",
-		"gulp-concat": "^2.6.1",
-		"gulp-eslint": "^4.0.2",
-		"gulp-load-plugins": "^1.5.0",
-		"gulp-rename": "^1.2.2",
-		"gulp-responsive": "^2.9.0",
-		"gulp-rev": "^8.1.1",
-		"gulp-uglify": "^3.0.0",
-		"gulp-uglify-es": "^1.0.1",
-		"gulp-uglifycss": "^1.0.9",
-		"peer": "^0.2.8",
-		"pump": "^3.0.0"
-	},
-	"dependencies": {
-		"critical": "^1.2.2",
-		"intersection-observer": "^0.5.0"
-	}
+  "name": "mws-nd-2018-stage-1",
+  "version": "1.0.0",
+  "description": "Restaurant Reviews app with Udacity MWS ND 2018",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeremieLitzler/mws-restaurant-stage-1.git"
+  },
+  "author": "JL",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JeremieLitzler/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/JeremieLitzler/mws-restaurant-stage-1#readme",
+  "devDependencies": {
+    "browser-sync": "^2.23.6",
+    "compression": "^1.7.2",
+    "critical": "^1.2.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-clean-css": "^3.9.3",
+    "gulp-concat": "^2.6.1",
+    "gulp-eslint": "^4.0.2",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-responsive": "^2.9.0",
+    "gulp-rev": "^8.1.1",
+    "gulp-uglify": "^3.0.0",
+    "gulp-uglify-es": "^1.0.1",
+    "gulp-uglifycss": "^1.0.9",
+    "peer": "^0.2.8",
+    "pump": "^3.0.0"
+  },
+  "dependencies": {
+    "critical": "^1.2.2",
+    "intersection-observer": "^0.5.0"
+  }
 }
