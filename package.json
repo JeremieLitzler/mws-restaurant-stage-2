@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/JeremieLitzler/mws-restaurant-stage-1#readme",
   "devDependencies": {
-    "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "browser-sync": "^2.23.6",
     "compression": "^1.7.2",
@@ -30,7 +29,7 @@
     "gulp-eslint": "^4.0.2",
     "gulp-load-plugins": "^1.5.0",
     "gulp-rename": "^1.2.2",
-    "gulp-responsive": "^2.9.0",
+    "gulp-responsive": "^2.10.0",
     "gulp-rev": "^8.1.1",
     "gulp-uglify": "^3.0.0",
     "gulp-uglify-es": "^1.0.1",
@@ -39,7 +38,6 @@
     "pump": "^3.0.0"
   },
   "dependencies": {
-    "critical": "^1.2.2",
     "intersection-observer": "^0.5.0"
   }
 }
