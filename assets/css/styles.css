@@ -70,10 +70,12 @@
   /* Service worker nok color */
   --c-sw-status-nok: #ff0000;
 }
+
 html,
 body {
   height: 100vh;
 }
+
 body,
 td,
 th,
@@ -82,16 +84,19 @@ p {
   font-size: var(--fs-default);
   color: var(--text-dark);
 }
+
 p {
   /* decrese default margin from webkit */
   -webkit-margin-before: 0.25rem;
   -webkit-margin-after: 0.25rem;
 }
+
 body {
   background-color: var(--bg-light);
   margin: 0;
   position: relative;
 }
+
 ul,
 li {
   font-family: Arial, Helvetica, sans-serif;
@@ -103,18 +108,22 @@ li {
   -webkit-margin-end: 0;
   -webkit-padding-start: 0;
 }
+
 a {
   color: var(--brand-color);
   text-decoration: none;
   border-radius: var(--default-bd-radius);
 }
+
 a:hover,
 a:focus {
   text-decoration: underline;
 }
+
 a img {
   border: none 0 #fff;
 }
+
 h1,
 h2,
 h3,
@@ -127,6 +136,7 @@ h6 {
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
 }
+
 article,
 aside,
 canvas,
@@ -142,15 +152,18 @@ section {
   display: block;
   max-width: 100%;
 }
+
 button {
   background-color: transparent;
   border: none;
   margin: 0;
   padding: 0;
 }
+
 main {
   background-color: var(--bg-light);
 }
+
 footer {
   background-color: var(--bg-dark);
   color: var(--text-light);
@@ -158,42 +171,51 @@ footer {
   text-transform: uppercase;
   padding: var(--default-pad);
 }
+
 /* Add focus box shadow for any element focused over DARK background  */
+
 :focus {
   outline: 0;
   box-shadow: var(--shadow-light);
 }
+
 .debug {
   border: 1px solid red;
 }
 
 /* ====================== Typography classes ====================== */
+
 .text-lg {
   font-size: calc(var(--fs-default) * 1.25);
 }
+
 .text-md {
   font-size: calc(var(--fs-default) * 1.125);
 }
+
 /* ====================== Components ====================== */
+
 .c-sw-status {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: calc(var(--default-pad) * 2);
+  display: inline-block;
 }
-.c-sw-status > span {
+
+.c-sw-status>span {
   width: 20px;
   height: 20px;
   border-radius: 10px;
-  display: block;
+  display: inline-block;
 }
+
 .c-sw-ok {
   background-color: var(--c-sw-status-ok);
 }
+
 .c-sw-nok {
   background-color: var(--c-sw-status-nok);
 }
+
 /* CREDITS: Alexandr Izumenko (https://codepen.io/Izumenko/pen/MpWyXK) */
+
 .c-loading-icon .container {
   width: 200px;
   height: 200px;
@@ -312,16 +334,20 @@ footer {
     z-index: 1;
   }
 }
+
 .c-emphasis {
   text-align: center;
 }
+
 h2.c-emphasis {
   font-size: calc(var(--fs-default) * 2);
   font-weight: bold;
 }
+
 p.c-emphasis {
   font-style: italic;
 }
+
 .c-btn {
   background-color: var(--brand-color);
   color: var(--text-brand-color);
@@ -337,6 +363,7 @@ p.c-emphasis {
   padding: var(--default-pad);
   cursor: pointer;
 }
+
 .c-btn:focus {
   outline: 0;
   box-shadow: var(--shadow-dark);
@@ -346,11 +373,13 @@ p.c-emphasis {
   outline: 0;
   box-shadow: var(--shadow-light);
 }
+
 @media screen and (max-width: 399px) {
   .c-btn {
     padding: calc(var(--default-pad) / 2);
   }
 }
+
 .btn-default:hover,
 .btn-default a:hover,
 .btn-default:focus,
@@ -360,11 +389,13 @@ p.c-emphasis {
   border: 1px solid var(--brand-color);
   text-decoration: underline;
 }
+
 .btn-small {
   width: 48px;
   min-width: var(--c-btn-small-width);
   text-align: center;
 }
+
 .row-default {
   height: var(--c-row-min-height);
   min-height: var(--c-row-min-height);
@@ -372,15 +403,17 @@ p.c-emphasis {
   padding: var(--default-pad) 0 var(--default-pad) var(--default-pad);
   border-bottom: 1px solid var(--c-bd-color-row-default);
 }
+
 @media screen and (min-width: 650px) {
   .row-default {
-    padding: calc(var(--default-pad) / 2) 0 calc(var(--default-pad) / 2)
-      calc(var(--default-pad) / 2);
+    padding: calc(var(--default-pad) / 2) 0 calc(var(--default-pad) / 2) calc(var(--default-pad) / 2);
   }
 }
+
 .row-default:first-child {
   border-top: 1px solid var(--c-bd-color-row-default);
 }
+
 .c-modal {
   display: none;
   position: fixed;
@@ -392,6 +425,7 @@ p.c-emphasis {
   text-align: center;
   z-index: var(--modal-layer);
 }
+
 .btn-close-modal {
   position: fixed;
   bottom: 0;
@@ -400,11 +434,13 @@ p.c-emphasis {
   border-top: 1px solid var(--c-bd-color-row-default);
   width: 100%;
 }
+
 .c-link-on-dark a:hover,
 .c-link-on-dark a:focus {
   color: var(--link-color-hover-on-dark);
   text-decoration: underline;
 }
+
 .c-skip-link {
   position: absolute;
   top: -9999px;
@@ -412,10 +448,12 @@ p.c-emphasis {
   z-index: var(--top-layer);
   margin: var(--default-y-mg) var(--default-x-mg);
 }
+
 .c-skip-link a,
 .c-skip-link a:focus {
   color: var(--text-dark);
 }
+
 .c-skip-link:focus {
   top: 0;
 }
@@ -423,7 +461,8 @@ p.c-emphasis {
 .c-img-ph {
   z-index: var(--img-ph-layer);
 }
-.c-img-ph + img {
+
+.c-img-ph+img {
   z-index: var(--img-layer);
 }
 
@@ -435,6 +474,7 @@ p.c-emphasis {
   bottom: 0;
   background: var(--bg-light);
 }
+
 .c-no-script-message {
   position: absolute;
   top: 50%;
@@ -443,35 +483,42 @@ p.c-emphasis {
   padding: 0 10vw;
   text-align: center;
 }
+
 /* ====================== Header ====================== */
 
 header {
   background-color: var(--bg-dark);
 }
+
 header h1 {
   line-height: initial;
   text-align: center;
   margin: 0;
   padding: var(--default-pad);
 }
+
 @media screen and (min-width: 650px) {
   header h1 {
     padding: calc(var(--default-pad) * 1.25);
   }
 }
+
 @media screen and (min-width: 1024px) {
   header h1 {
     padding: calc(var(--default-pad) * 1.5);
   }
 }
+
 /* ====================== Navigation ====================== */
 
 nav {
   text-align: center;
 }
+
 nav h1 {
   margin: auto;
 }
+
 nav h1 a {
   color: var(--text-light);
   font-weight: 200;
@@ -482,13 +529,15 @@ nav h1 a {
 /* ====================== Loading screen ====================== */
 
 .loading-screen {
-  display:none;
+  display: none;
   width: 100%;
   height: 100vh;
 }
+
 .loading-screen p {
   padding: 0 var(--default-pad);
 }
+
 /* ====================== Map ====================== */
 
 #map {
@@ -497,12 +546,14 @@ nav h1 a {
   background-color: transparent;
   float: left;
 }
+
 .map-offline-placeholder {
   display: none;
   z-index: 0;
   margin: 5rem;
 }
-.map-offline-placeholder > * {
+
+.map-offline-placeholder>* {
   text-align: center;
   /* top: 30vmin; */
 }
@@ -513,20 +564,24 @@ nav h1 a {
   text-align: center;
   clear: both;
 }
+
 #filters-modal select {
   display: block;
   margin: var(--default-y-mg) auto;
   padding: calc(var(--default-pad));
 }
+
 select option {
   background-color: VAR(--BG-DARK);
   color: VAR(--BRAND-COLOR);
 }
+
 select option selected,
 select option:checked {
   background-color: var(--brand-color);
   color: var(-var(--text-dark));
 }
+
 /* ====================== Restaurant Listing ====================== */
 
 @media screen and (min-width: 400px) {
@@ -534,31 +589,39 @@ select option:checked {
     display: none;
   }
 }
+
 .restaurants-container {
   width: 100%;
 }
+
 .restaurant-container {
   display: flex;
   align-items: center;
 }
+
 .restaurant-img {
   max-height: var(--c-row-min-height);
 }
+
 .descriptions {
   padding: 0 1rem;
   width: 100%;
 }
+
 .address {
   display: none;
 }
+
 .restaurant-container .more-container {
   margin-left: auto;
 }
+
 @media screen and (max-width: 399px) {
   .restaurant-container h2 {
     font-size: var(--fs-default);
   }
 }
+
 @media screen and (min-width: 400px) {
   .row-default {
     min-height: calc(var(--c-row-min-height) * 1.2);
@@ -587,6 +650,7 @@ select option:checked {
     float: right;
   }
 }
+
 @media screen and (min-width: 650px) {
   .index-page-container .map-container {
     height: 50vh;
@@ -604,6 +668,7 @@ select option:checked {
     font-size: initial;
   }
 }
+
 @media screen and (min-width: 800px) {
   .index-page-container {
     display: grid;
@@ -623,6 +688,7 @@ select option:checked {
     display: block;
   }
 }
+
 @media screen and (min-width: 1024px) {
   .index-page-container {
     display: grid;
@@ -641,6 +707,7 @@ select option:checked {
     display: block;
   }
 }
+
 /* ====================== Breadcrumb ====================== */
 
 .breadcrumb {
@@ -650,48 +717,57 @@ select option:checked {
   font-size: var(--fs-default);
   margin: 0;
 }
+
 /* Display list items side by side */
 
 .breadcrumb li {
   display: inline;
   color: var(--text-light);
 }
+
 /* Add a slash symbol (/) before/behind each list item */
 
-.breadcrumb li + li:before {
+.breadcrumb li+li:before {
   padding: 8px;
   color: var(--text-light);
   content: "/\00a0";
 }
+
 /* Add a color to all links inside the list */
 
 .breadcrumb li a {
   color: var(--link-color-on-dark);
   text-decoration: none;
 }
+
 /* Add a color on mouse-over */
 
 .breadcrumb li a:hover {
   color: var(--link-color-hover-on-dark);
   text-decoration: underline;
 }
+
 /* ====================== Restaurant Details ====================== */
 
 .resto-page-container #map {
   height: 20vh;
 }
+
 .resto-page-container h2,
 .resto-page-container p {
   text-align: center;
 }
+
 .restaurant-details-container,
 .restaurant-hours-container-modal {
   text-align: center;
 }
+
 .resto-page-container .restaurant-img-container {
   width: 100%;
   height: initial;
 }
+
 @media screen and (min-width: 400px) {
   .resto-page-container .restaurant-img-container {
     width: 80%;
@@ -704,6 +780,7 @@ select option:checked {
     margin: 0 auto;
   }
 }
+
 @media screen and (min-width: 650px) {
   .resto-page-container {
     display: grid;
@@ -717,19 +794,22 @@ select option:checked {
   .restaurant-details-container {
     grid-column: 1 / 6;
   }
-  .map-container > #map {
+  .map-container>#map {
     height: 100%;
   }
 }
+
 .resto-page-container .restaurant-img {
   max-width: 100%;
   max-height: initial;
 }
+
 .reviews-container-modal,
 .restaurant-hours-container-modal {
   display: none;
   overflow: hidden;
 }
+
 @media screen and (max-width: 500px) {
   table,
   thead,
@@ -748,71 +828,84 @@ select option:checked {
     position: relative;
     text-align: center;
   }
-  table > tr {
+  table>tr {
     margin: var(--default-y-mg) auto;
   }
 }
+
 .restaurant-hours-container-modal td:nth-child(odd) {
   font-weight: bold;
 }
+
 .reviews-container-modal {
   line-height: initial;
   overflow-y: scroll;
 }
+
 .reviews-container-modal h4 {
   font-size: var(--fs-default);
   border-radius: var(--default-bd-radius);
 }
+
 .reviews-container-modal h4:focus {
   box-shadow: var(--shadow-dark);
 }
+
 @media screen and (min-width: 650px) {
   .reviews-container-modal ul {
     display: grid;
     grid-template-columns: auto auto;
   }
 }
+
 @media screen and (min-width: 1024px) {
   .reviews-container-modal ul {
     grid-template-columns: auto auto auto;
   }
 }
+
 .reviews-container-modal ul {
   padding-bottom: calc(var(--c-btn-min-height) * 1.5);
 }
+
 .reviews-container-modal {
   font-size: calc(var(--fs-default) * 1.2);
 }
+
 .reviews-container-modal li {
-  margin: calc(var(--default-y-mg) * 2) calc(var(--default-x-mg) * 2) 0
-    calc(var(--default-x-mg) * 2);
+  margin: calc(var(--default-y-mg) * 2) calc(var(--default-x-mg) * 2) 0 calc(var(--default-x-mg) * 2);
   background-color: var(--c-bg-row-default);
   border: 1px solid var(--c-bd-color-row-default);
   padding: calc(var(--default-pad) * 2);
   border-radius: var(--default-bd-radius);
 }
+
 @media screen and (min-width: 650px) {
   .reviews-container-modal li {
     margin-top: calc(var(--default-y-mg) * 4);
   }
 }
+
 .reviews-container-modal .review-date {
   width: 100%;
   text-align: right;
   font-style: italic;
 }
+
 .reviews-container-modal .review-author,
 .reviews-container-modal .review-rating {
   display: inline-block;
   width: 50%;
   font-weight: bold;
 }
+
 .reviews-container-modal .review-comments {
   width: 100%;
   padding: var(--default-pad) 0;
   text-align: justify;
   font-size: smaller;
 }
+
 @media screen and (min-width: 400px) {
   .reviews-container-modal .review-author,
   .reviews-container-modal .review-rating {
