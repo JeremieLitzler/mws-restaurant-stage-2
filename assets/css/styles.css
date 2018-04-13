@@ -541,6 +541,7 @@ nav h1 a {
 /* ====================== Map ====================== */
 
 #map {
+  display: none;
   height: 40vh;
   width: 100%;
   background-color: transparent;
@@ -583,6 +584,11 @@ select option:checked {
 }
 
 /* ====================== Restaurant Listing ====================== */
+
+.no-restaurant-msg {
+  display: none;
+  text-align: center;
+}
 
 @media screen and (min-width: 400px) {
   .view-list {

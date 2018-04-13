@@ -1,7 +1,7 @@
 /*eslint-env node */
 
 const gulp = require("gulp");
-//const sourcemaps = require('gulp-sourcemaps');
+const sourcemaps = require("gulp-sourcemaps");
 const concat = require("gulp-concat");
 const rename = require("gulp-rename");
 const babel = require("gulp-babel");
@@ -57,12 +57,14 @@ gulp.task("copy-html", () => {
     .src(["./index.html", "./restaurant.html", "./assets/offline.html"])
     .pipe(gulp.dest("./build"));
 });
+
 /**
  * Copy the json data file into the build folder
  */
 gulp.task("copy-json", () => {
   gulp.src(["./data/restaurants.json"]).pipe(gulp.dest("./build/data"));
 });
+
 /**
  * Copy the icons into the build folder
  */
@@ -71,6 +73,7 @@ gulp.task("copy-icons", () => {
     .src([".assets/img/icons/*.svg", "./assets/img/icons/*.png"])
     .pipe(gulp.dest("./build/img/icons"));
 });
+
 /**
  * Copy the image placeholders into the build folder
  */
@@ -195,10 +198,12 @@ gulp.task("optim-js-index-page", callback => {
   pump(
     [
       gulp.src(finalJsFilesIndexPage),
+      sourcemaps.init(),
       babel(),
       concat("index.bundle.js"),
       uglify(),
       rename("index.bundle.min.js"),
+      sourcemaps.write(),
       gulp.dest("build/js"),
       browserSync.reload({ stream: true })
     ],
@@ -218,10 +223,12 @@ gulp.task("optim-js-restaurant-page", callback => {
   pump(
     [
       gulp.src(finalJsFilesRestaurantPage),
+      sourcemaps.init(),
       babel(),
       concat("restaurant.bundle.js"),
       uglify(),
       rename("restaurant.bundle.min.js"),
+      sourcemaps.write(),
       gulp.dest("build/js"),
       browserSync.reload({ stream: true })
     ],
@@ -239,15 +246,33 @@ gulp.task("optim-js-io", callback => {
   pump(
     [
       gulp.src(intersectionObserverFile),
+      sourcemaps.init(),
       uglify(),
       rename("io.min.js"),
+      sourcemaps.write(),
       gulp.dest("build/js"),
       browserSync.reload({ stream: true })
     ],
     callback
   );
 });
+/**
+ * Task to copy the javascript unoptimized in development.
+ */
+gulp.task("copy-scripts", () => {
+  gulp
+    .src([
+      ...jsCommonFiles,
+      ...jsFilesIndexPage,
+      ...jsFilesRestaurantPage,
+      ...intersectionObserverFile
+    ])
+    .pipe(gulp.dest("./build"));
+});
 
+/**
+ * Task to optimize the javascript scripts when deploying the application
+ */
 gulp.task("scripts", [
   "optim-js-index-page",
   "optim-js-restaurant-page",
