@@ -427,6 +427,22 @@ p.c-emphasis {
   z-index: var(--img-layer);
 }
 
+.c-no-script {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--bg-light);
+}
+.c-no-script-message {
+  position: absolute;
+  top: 50%;
+  font-size: 30px;
+  font-weight: 300;
+  padding: 0 10vw;
+  text-align: center;
+}
 /* ====================== Header ====================== */
 
 header {
