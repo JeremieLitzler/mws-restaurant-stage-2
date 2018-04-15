@@ -14,7 +14,7 @@
 // Names of the two caches used in this version of the service worker.
 // Change to CACHE_VERSION, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
-const CACHE_VERSION = 4;
+const CACHE_VERSION = 5;
 const PRECACHE = `rreviews-data-v${CACHE_VERSION}`;
 const PRECACHE_IMG = `rreviews-imgs-v${CACHE_VERSION}`;
 const RUNTIME = `rreviews-runtime-v${CACHE_VERSION}`;
@@ -55,12 +55,12 @@ const cacheUrls = (cacheStore, resourcesToCache) => {
             for (const url of resourcesToCache) {
                 console.log(`About to cache ${url} at index ${url}`);
                 cache.add(url).catch(err => {
-                    console.log(`Cache.add failed for ${url}`, err);
+                    console.error(`Cache.add failed for ${url}`, err);
                 });
             }
         })
         .catch(error => {
-            console.log("caches", error);
+            console.error("caches", error);
         });
 };
 const cacheStaticResources = () => {
@@ -108,6 +108,15 @@ self.addEventListener("fetch", event => {
         //It is used to detect if the user isn't connected to any network
         return;
     }
+    const searchBrowserSync = requestUrl.match(/(browser-sync)/);
+    if (
+        searchBrowserSync != null &&
+        searchBrowserSync.length != undefined &&
+        searchBrowserSync.length > 0
+    ) {
+        return;
+    }
+
     if (requestUrl.startsWith(self.location.origin)) {
         event.respondWith(
             caches.match(event.request).then(cachedResponse => {
@@ -131,21 +140,21 @@ self.addEventListener("fetch", event => {
                                         return response;
                                     })
                                     .catch(err => {
-                                        console.log(
+                                        console.error(
                                             `cache.put failed on ${requestUrl}`,
                                             err
                                         );
                                     });
                             })
                             .catch(err => {
-                                console.log(
+                                console.error(
                                     `fetch failed on ${requestUrl}`,
                                     err
                                 );
                             });
                     })
                     .catch(err => {
-                        console.log(`cache.match failed ${requestUrl}`, err);
+                        console.error(`cache.match failed ${requestUrl}`, err);
                     });
             })
         );

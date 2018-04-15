@@ -121,7 +121,6 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
     restaurants.forEach(restaurant => {
         ul.append(createRestaurantHTML(restaurant));
     });
-    addMarkersToMap();
     const filtersContainer = document.getElementById("filters");
     //console.log("about to focus element id filters...");
     filtersContainer.focus();
@@ -178,7 +177,7 @@ createRestaurantHTML = restaurant => {
 addMarkersToMap = (restaurants = self.restaurants) => {
     restaurants.forEach(restaurant => {
         // Add marker to the map
-        const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
+        const marker = MapsMarker.mapMarkerForRestaurant(restaurant, self.map);
         google.maps.event.addListener(marker, "click", () => {
             window.location.href = marker.url;
         });
