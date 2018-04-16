@@ -2,11 +2,11 @@ const applyFiltersBtn = document.querySelector(".js-apply-filters");
 applyFiltersBtn.addEventListener("click", applyFilters);
 
 function applyFilters() {
-    updateRestaurants();
-    resetFocusToFiltersContainer();
+  new IndexPage().updateRestaurants();
+  resetFocusToFiltersContainer();
 }
 
 function resetFocusToFiltersContainer() {
-    const filtersContainer = document.getElementById("filters");
-    filtersContainer.focus();
+  const filtersContainer = document.getElementById("filters");
+  filtersContainer.focus();
 }
