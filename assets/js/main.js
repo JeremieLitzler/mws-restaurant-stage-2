@@ -4,9 +4,14 @@ class IndexPage {
     this.markers = [];
     this.restaurants = null;
   }
+  setRestaurants(restaurants) {
+    this.restaurants = restaurants;
+    return this;
+  }
   hideLoadingScreen() {
     const loadingScreen = document.querySelector(".loading-screen");
     loadingScreen.style.display = "none";
+    return this;
   }
   /**
    * Fetch all neighborhoods and set their HTML.
@@ -61,31 +66,39 @@ class IndexPage {
       select.append(option);
     });
   }
-
-  /**
-   * Update page and map for current restaurants.
-   */
-  updateRestaurants() {
-    let page = this;
+  readFilters() {
     const cSelect = document.getElementById("cuisines-select");
     const nSelect = document.getElementById("neighborhoods-select");
     const cIndex = cSelect.selectedIndex;
     const nIndex = nSelect.selectedIndex;
     const cuisine = cSelect[cIndex].value;
     const neighborhood = nSelect[nIndex].value;
+    return {
+      cuisine: cuisine,
+      neighborhood: neighborhood
+    };
+  }
+
+  /**
+   * Update page and map for current restaurants.
+   */
+  updateRestaurants() {
+    const filters = this.readFilters();
     document.getElementById("filters-modal").style.display = "none";
-    this.restaurants = DBHelper.fetchRestaurantByCuisineAndNeighborhood(
-      cuisine,
-      neighborhood,
-      (error, restaurants, page) => {
+    DBHelper.fetchRestaurantByCuisineAndNeighborhood(
+      filters.cuisine,
+      filters.neighborhood,
+      (error, restaurants) => {
+        const page = new IndexPage();
         if (error) {
           // Got an error!
           console.error(error);
         } else {
-          page.restaurants = restaurants;
-          page.hideLoadingScreen();
-          page.resetRestaurants();
-          page.fillRestaurantsHTML();
+          page
+            .setRestaurants(restaurants)
+            .hideLoadingScreen()
+            .resetRestaurants()
+            .fillRestaurantsHTML();
         }
       }
     );
@@ -99,6 +112,7 @@ class IndexPage {
     // Remove all map markers
     this.markers.forEach(m => m.setMap(null));
     this.markers = [];
+    return this;
   }
   /**
    * Create all restaurants HTML and add them to the webpage.
@@ -120,6 +134,7 @@ class IndexPage {
     //console.log("about to focus element id filters...");
     filtersContainer.focus();
     //console.log("element id filters focused? document.activeElement:", document.activeElement);
+    return this;
   }
   /**
    * Create restaurant HTML.
@@ -166,6 +181,22 @@ class IndexPage {
     li.append(moreContainer);
     return li;
   }
+  updateMarkers() {
+    const filters = this.readFilters();
+    DBHelper.fetchRestaurantByCuisineAndNeighborhood(
+      filters.cuisine,
+      filters.neighborhood,
+      (error, restaurants) => {
+        const page = new IndexPage();
+        if (error) {
+          // Got an error!
+          console.error(error);
+        } else {
+          page.setRestaurants(restaurants).addMarkersToMap();
+        }
+      }
+    );
+  }
   /**
    * Add markers for current restaurants to the map.
    */
@@ -176,7 +207,7 @@ class IndexPage {
       google.maps.event.addListener(marker, "click", () => {
         window.location.href = marker.url;
       });
-      markers.push(marker);
+      this.markers.push(marker);
     });
   }
 }

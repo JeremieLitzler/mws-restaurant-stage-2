@@ -129,7 +129,7 @@ class DBHelper {
     callback
   ) {
     // Fetch all restaurants
-    return DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -142,7 +142,7 @@ class DBHelper {
           // filter by neighborhood
           results = results.filter(r => r.neighborhood == neighborhood);
         }
-        return callback(null, results, new IndexPage());
+        callback(null, results);
       }
     });
   }

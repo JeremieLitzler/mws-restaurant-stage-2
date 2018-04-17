@@ -14,14 +14,20 @@ class MapsMarker {
   }
 }
 let displayGmaps = document.querySelector(".display-gmaps");
+let hideGmaps = document.querySelector(".hide-gmaps");
 
-if (displayGmaps != null) {
-  displayGmaps.addEventListener("click", () => {
-    const mapContainer = document.querySelector("#map");
-    mapContainer.style.display = "block";
-    displayGmaps.innerHTML = "Hide the map";
-  });
-}
+displayGmaps.addEventListener("click", () => {
+  displayGmaps.style.display = "none";
+  hideGmaps.style.display = "inline-block";
+  const mapContainer = document.querySelector("#map");
+  mapContainer.style.display = "block";
+});
+hideGmaps.addEventListener("click", () => {
+  hideGmaps.style.display = "none";
+  displayGmaps.style.display = "inline-block";
+  const mapContainer = document.querySelector("#map");
+  mapContainer.style.display = "none";
+});
 /* Licence Creative Commons Attribution 4.0 International License - Walter Ebert (https://walterebert.com/blog/lazy-loading-google-maps-with-the-intersection-observer-api/) */
 function google_maps_init() {
   "use strict";
@@ -35,9 +41,7 @@ function google_maps_init() {
     center: loc,
     scrollwheel: false
   });
-  const page = new IndexPage();
-  page.updateRestaurants();
-  page.addMarkersToMap();
+  new IndexPage().updateMarkers();
 }
 /**
  * Lazy load the Google Map.
