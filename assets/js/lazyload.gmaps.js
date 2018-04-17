@@ -1,8 +1,32 @@
+class MapsMarker {
+  /**
+   * Map marker for a restaurant.
+   */
+  static mapMarkerForRestaurant(restaurant, map) {
+    const marker = new google.maps.Marker({
+      position: restaurant.latlng,
+      title: restaurant.name,
+      url: DBHelper.urlForRestaurant(restaurant),
+      map: map,
+      animation: google.maps.Animation.DROP
+    });
+    return marker;
+  }
+}
 let displayGmaps = document.querySelector(".display-gmaps");
+let hideGmaps = document.querySelector(".hide-gmaps");
 
 displayGmaps.addEventListener("click", () => {
-  var mapContainer = document.getElementById("map-container");
+  displayGmaps.style.display = "none";
+  hideGmaps.style.display = "inline-block";
+  const mapContainer = document.querySelector("#map");
   mapContainer.style.display = "block";
+});
+hideGmaps.addEventListener("click", () => {
+  hideGmaps.style.display = "none";
+  displayGmaps.style.display = "inline-block";
+  const mapContainer = document.querySelector("#map");
+  mapContainer.style.display = "none";
 });
 /* Licence Creative Commons Attribution 4.0 International License - Walter Ebert (https://walterebert.com/blog/lazy-loading-google-maps-with-the-intersection-observer-api/) */
 function google_maps_init() {
@@ -17,10 +41,13 @@ function google_maps_init() {
     center: loc,
     scrollwheel: false
   });
-  updateRestaurants();
+  new IndexPage().updateMarkers();
 }
-
-async function google_maps_lazyload(api_key) {
+/**
+ * Lazy load the Google Map.
+ * @param {*} api_key
+ */
+function google_maps_lazyload(api_key) {
   "use strict";
 
   if (api_key) {

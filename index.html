@@ -86,8 +86,11 @@
         </section>
         <section class="restaurants-container">
             <div class="filter-options" id="filters">
-                <button class="c-btn btn-default display-maps" title="View the map">
+                <button class="c-btn btn-default display-gmaps" title="View the map">
                     View the restaurants on Google Maps
+                </button>
+                <button class="c-btn btn-default hide-gmaps" title="Hide the map">
+                    Hide Google Maps
                 </button>
                 <button class="c-btn btn-default open-search-modal js-filters-modal" title="Open the search">
                     Filter the list of restaurants
@@ -139,6 +142,9 @@
     <script charset="utf-8" src="./js/index.bundle.min.js" type="application/javascript">
     </script>
     <script charset="utf-8" src="./js/io.min.js" type="application/javascript">
+    </script>
+    <script>
+        new IndexPage().updateRestaurants();
     </script>
     <!-- TODO: create a web component -->
     <noscript>
