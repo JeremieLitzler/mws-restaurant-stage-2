@@ -8,7 +8,8 @@ class MapsMarker {
       title: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant),
       map: map,
-      animation: google.maps.Animation.DROP
+      animation: google.maps.Animation.DROP,
+      center: restaurant.latlng
     });
     return marker;
   }
@@ -29,7 +30,7 @@ hideGmaps.addEventListener("click", () => {
   mapContainer.style.display = "none";
 });
 /* Licence Creative Commons Attribution 4.0 International License - Walter Ebert (https://walterebert.com/blog/lazy-loading-google-maps-with-the-intersection-observer-api/) */
-function google_maps_init() {
+function google_maps_init_on_index() {
   "use strict";
 
   let loc = {
@@ -37,11 +38,23 @@ function google_maps_init() {
     lng: -73.987501
   };
   self.map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 12,
+    zoom: 11,
     center: loc,
     scrollwheel: false
   });
   new IndexPage().updateMarkers();
+}
+
+function google_maps_init_on_restopage() {
+  ("use strict");
+
+  let loc = { lat: 40.722216, lng: -73.987501 };
+  self.map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 16,
+    center: loc,
+    scrollwheel: false
+  });
+  new RestaurantPage().addMarker(self.map);
 }
 /**
  * Lazy load the Google Map.
@@ -50,6 +63,7 @@ function google_maps_init() {
 function google_maps_lazyload(api_key) {
   "use strict";
 
+  var currentPage = document.location.pathname;
   if (api_key) {
     var options = {
       rootMargin: "100px",
@@ -65,9 +79,12 @@ function google_maps_lazyload(api_key) {
           ? entries[0].isIntersecting
           : entries[0].intersectionRatio > 0;
       if (isIntersecting) {
+        const pageSpecificGmapsLoader =
+          currentPage === "/" || currentPage === "/index.html"
+            ? "google_maps_init_on_index"
+            : "google_maps_init_on_restopage";
         loadJS(
-          "https://maps.googleapis.com/maps/api/js?callback=google_maps_init&libraries=places&key=" +
-            api_key
+          `https://maps.googleapis.com/maps/api/js?callback=${pageSpecificGmapsLoader}&libraries=places&key=${api_key}`
         );
         self.unobserve(map);
       }

@@ -71,6 +71,12 @@
                 <button class="c-btn btn-default open-reviews-modal js-reviews-modal" title="Read reviews">
                     Read reviews
                 </button>
+                <button class="c-btn btn-default display-gmaps" title="View the map">
+                    View restaurant on Google Maps
+                </button>
+                <button class="c-btn btn-default hide-gmaps" title="Hide the map">
+                    Hide Google Maps
+                </button>
             </div>
         </section>
         <section class="c-modal restaurant-hours-container-modal js-restaurant-hours-modal" id="restaurant-hours" role="dialog">
@@ -118,58 +124,8 @@
 
     <script charset="utf-8" src="./js/restaurant.bundle.min.js" type="application/javascript">
     </script>
-    <!-- Google Maps -->
-    <script>
-        /* Licence: under a Creative Commons Attribution 4.0 International License - Walter Ebert (https://walterebert.com/blog/lazy-loading-google-maps-with-the-intersection-observer-api/) */
-        function google_maps_init() {
-            'use strict'
-
-            fetchRestaurantFromURL((error, restaurant) => {
-                if (error) {
-                    // Got an error!
-                    console.error(error);
-                } else {
-                    self.map = new google.maps.Map(document.getElementById("map"), {
-                        zoom: 16,
-                        center: restaurant.latlng,
-                        scrollwheel: false
-                    });
-                    fillBreadcrumb();
-                    DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-                }
-            });
-        }
-
-        function google_maps_lazyload(api_key) {
-            'use strict'
-
-            if (api_key) {
-                var options = {
-                    rootMargin: '100px',
-                    threshold: 0
-                }
-
-                var map = document.getElementById('map')
-
-                var observer = new IntersectionObserver(
-                    function (entries, self) {
-                        // Intersecting with Edge workaround https://calendar.perfplanet.com/2017/progressive-image-loading-using-intersection-observer-and-sqip/#comment-102838
-                        var isIntersecting = typeof entries[0].isIntersecting === 'boolean' ? entries[0].isIntersecting : entries[0].intersectionRatio > 0
-                        if (isIntersecting) {
-                            loadJS('https://maps.googleapis.com/maps/api/js?callback=google_maps_init&key=' + api_key)
-                            self.unobserve(map)
-                        }
-                    },
-                    options
-                )
-
-                observer.observe(map)
-            }
-        }
-
-        google_maps_lazyload("AIzaSyBXysE433qRY0W9gup0-_N5UF_0ObJK3oc")
+    <script charset="utf-8" src="./js/io.min.js" type="application/javascript">
     </script>
-    <!-- End scripts -->
     <!-- TODO: create a web component -->
     <noscript>
         <div class="c-no-script">
