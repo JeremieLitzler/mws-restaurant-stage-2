@@ -54,29 +54,9 @@
         <nav>
         </nav>
     </header>
-    <!-- TODO: Create a component LoadingScreen -->
-    <div class="loading-screen">
-        <p class="c-emphasis text-lg">Hang on a second</p>
-        <p class="c-emphasis text-md">while we load the best of NYC's restaurants!</p>
-        <div class="c-loading-icon">
-            <div class="container">
-                <div class="dot dot-1"></div>
-                <div class="dot dot-2"></div>
-                <div class="dot dot-3"></div>
-            </div>
-
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-                <defs>
-                    <filter id="goo">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-                        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7" />
-                    </filter>
-                </defs>
-            </svg>
-        </div>
-    </div>
     <main class="index-page-container" id="maincontent">
         <section class="map-container" id="map-container">
+            <!-- TODO: Create a component LazyloadGoogleMap -->
             <div class="map-buttons">
                 <button class="c-btn btn-default display-gmaps" title="View the map">
                     View the restaurants on Google Maps here
@@ -97,6 +77,27 @@
                 <button class="c-btn btn-default open-search-modal js-filters-modal" title="Open the search">
                     Filter the list of restaurants
                 </button>
+            </div>
+            <!-- TODO: Create a component LoadingScreen -->
+            <div class="loading-screen">
+                <p class="c-emphasis text-lg">Hang on a second</p>
+                <p class="c-emphasis text-md">while we load the best of NYC's restaurants!</p>
+                <div class="c-loading-icon">
+                    <div class="container">
+                        <div class="dot dot-1"></div>
+                        <div class="dot dot-2"></div>
+                        <div class="dot dot-3"></div>
+                    </div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                        <defs>
+                            <filter id="goo">
+                                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7" />
+                            </filter>
+                        </defs>
+                    </svg>
+                </div>
             </div>
             <ul id="restaurants-list">
             </ul>
