@@ -1,6 +1,6 @@
 {
     "author": "Udacity, Jeremie Litzler",
-    "start_url": "http://localhost:8002",
+    "start_url": "https://resto-reviews.puzzlout.com",
     "default_locale": "en",
     "name": "Restaurant reviews",
     "short_name": "Restaurant reviews",
