@@ -205,8 +205,7 @@ gulp.task("optim-js-index-page", callback => {
       uglify(),
       rename("index.bundle.min.js"),
       sourcemaps.write(),
-      gulp.dest("build/js"),
-      browserSync.reload({ stream: true })
+      gulp.dest("build/js")
     ],
     callback
   );
@@ -230,8 +229,7 @@ gulp.task("optim-js-restaurant-page", callback => {
       uglify(),
       rename("restaurant.bundle.min.js"),
       sourcemaps.write(),
-      gulp.dest("build/js"),
-      browserSync.reload({ stream: true })
+      gulp.dest("build/js")
     ],
     callback
   );
@@ -251,8 +249,7 @@ gulp.task("optim-js-io", callback => {
       uglify(),
       rename("io.min.js"),
       sourcemaps.write(),
-      gulp.dest("build/js"),
-      browserSync.reload({ stream: true })
+      gulp.dest("build/js")
     ],
     callback
   );
@@ -288,7 +285,7 @@ gulp.task("scripts", [
  */
 //https://stackoverflow.com/a/28460016
 const compress = require("compression");
-const browserSync = require("browser-sync").create();
+//const browserSync = require("browser-sync").create();
 gulp.task(
   "default",
   [
@@ -304,17 +301,6 @@ gulp.task(
     gulp.watch("./assets/js/**/*.js", ["scripts"]);
     gulp.watch("./assets/css/**/*.css", ["optim-css"]);
     gulp.watch("./**/*.html", ["copy-html"]);
-    browserSync.init({
-      files: ["build/**/*.*"],
-      server: {
-        baseDir: "./build",
-        middleware: function(req, res, next) {
-          var gzip = compress();
-          gzip(req, res, next);
-        }
-      },
-      port: 8001
-    });
   }
 );
 

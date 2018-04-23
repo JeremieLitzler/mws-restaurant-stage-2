@@ -1,11 +1,10 @@
 {
     "author": "Udacity, Jeremie Litzler",
-    "start_url": "https://resto-reviews.puzzlout.com",
+    "start_url": "http://localhost:8002",
     "default_locale": "en",
     "name": "Restaurant reviews",
     "short_name": "Restaurant reviews",
-    "icons": [
-        {
+    "icons": [{
             "src": "assets/img/icons/android-chrome-192x192.png",
             "sizes": "192x192",
             "type": "image/png"

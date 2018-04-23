@@ -547,6 +547,7 @@ nav h1 a {
 }
 
 .display-gmaps {
+  display: none;
   width: 200px;
 }
 @media screen and (min-width: 650px) {
@@ -560,7 +561,6 @@ nav h1 a {
   display: none;
 }
 #map {
-  display: none;
   height: 40vh;
   width: 100%;
   background-color: transparent;

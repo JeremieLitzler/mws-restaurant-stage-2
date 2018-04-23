@@ -20,4 +20,4 @@ npm i --save-dev gulp-uglify-es #Install Gulp uglify for ES6
 npm i --save-dev gulp-babel #Install Gulp Babel for ES6+ to ES5 transpilling
 npm i --save-dev gulp-sourcemaps #Install Gulp Source maps to debug the javascript in production
 gulp default #run the build process
-serve -p 8000 -o #to launch the server
+serve -p 443 -o #to launch the server
