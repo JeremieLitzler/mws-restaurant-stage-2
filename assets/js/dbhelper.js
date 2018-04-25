@@ -7,8 +7,7 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const sslActive = location.protocol.indexOf("https") !== -1;
-    const jsonUrl = `${location.origin}/data/restaurants.json`;
+    const jsonUrl = `http://localhost:1337/restaurants`;
     console.log(jsonUrl);
     return jsonUrl;
   }
@@ -33,13 +32,14 @@ class DBHelper {
     fetch(DBHelper.DATABASE_URL)
       .then(function(response) {
         if (response.ok) {
-          //console.log("Response OK", response);
-          return response.json();
+          const jsonData = response.json();
+          console.log(jsonData);
+          return jsonData;
         }
         console.log("Featch failed response", response);
       })
-      .then(function(json) {
-        callback(null, json.restaurants);
+      .then(function(restaurants) {
+        callback(null, restaurants);
       })
       .catch(function(err) {
         console.error("Some error appended", err);
