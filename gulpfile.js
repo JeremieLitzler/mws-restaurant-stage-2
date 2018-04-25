@@ -181,6 +181,7 @@ let uglify = require("gulp-uglify-es").default;
  * jsCommonFiles is the list of javascript files that are common to both index and restaurant pages.
  */
 let jsCommonFiles = [
+  "./node_modules/idb/idb.js", //Idb with promise library
   "./assets/js/app.js",
   "./assets/js/lazysizes.min.js",
   "./assets/js/lazyload.gmaps.js",
