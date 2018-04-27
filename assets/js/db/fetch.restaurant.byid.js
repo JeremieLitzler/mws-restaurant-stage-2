@@ -17,13 +17,13 @@ function fetchRestaurantById(id, callback) {
       console.log("Fetch failed response", response);
     })
     .then(restaurant => {
-      if (restaurant) {
+      if (restaurant !== null) {
         // Got the restaurant
         callback(null, restaurant);
-      } else {
-        // Restaurant does not exist in the database
-        callback(`Restaurant ${id} does not exist`, null);
+        return;
       }
+
+      callback(`Restaurant ${id} does not exist`, null);
     })
     .catch(err => {
       callback(error, null);
