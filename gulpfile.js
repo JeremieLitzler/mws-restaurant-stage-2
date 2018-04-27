@@ -182,6 +182,9 @@ let uglify = require("gulp-uglify-es").default;
  */
 let jsCommonFiles = [
   "./node_modules/idb/idb.js", //Idb with promise library
+  "./assets/js/lib/helpers.js",
+  "./assets/js/db/fetch.restaurants.js",
+  "./assets/js/db/fetch.restaurant.byid.js",
   "./assets/js/app.js",
   "./assets/js/lazysizes.min.js",
   "./assets/js/lazyload.gmaps.js",
