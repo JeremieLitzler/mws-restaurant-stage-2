@@ -3,70 +3,11 @@
  */
 class DBHelper {
   /**
-   * Database URL.
-   * Change this to restaurants.json file location on your server.
-   */
-  static get DATABASE_URL() {
-    const jsonUrl = `http://localhost:1337/restaurants`;
-    console.log(jsonUrl);
-    return jsonUrl;
-  }
-
-  /**
-   * Fetch all restaurants.
-   */
-  static fetchRestaurants(callback) {
-    this.fetchDatabaseData(callback);
-  }
-
-  /**
-   * Fetch the data at DBHelper.DATABASE_URL using the Web API method Fetch
-   * @param {*} callback
-   */
-  static fetchDatabaseData(callback) {
-    fetch(DBHelper.DATABASE_URL)
-      .then(function(response) {
-        if (response.ok) {
-          const jsonData = response.json();
-          console.log(jsonData);
-          return jsonData;
-        }
-        console.log("Featch failed response", response);
-      })
-      .then(function(restaurants) {
-        callback(null, restaurants);
-      })
-      .catch(function(err) {
-        console.error("Some error appended", err);
-      });
-  }
-
-  /**
-   * Fetch a restaurant by its ID.
-   */
-  static fetchRestaurantById(id, callback) {
-    // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) {
-          // Got the restaurant
-          callback(null, restaurant);
-        } else {
-          // Restaurant does not exist in the database
-          callback("Restaurant does not exist", null);
-        }
-      }
-    });
-  }
-  /**
    * Fetch restaurants by a cuisine type with proper error handling.
    */
   static fetchRestaurantByCuisine(cuisine, callback) {
     // Fetch all restaurants  with proper error handling
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -81,7 +22,7 @@ class DBHelper {
    */
   static fetchRestaurantByNeighborhood(neighborhood, callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -100,7 +41,7 @@ class DBHelper {
     callback
   ) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -122,7 +63,7 @@ class DBHelper {
    */
   static fetchNeighborhoods(callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -143,7 +84,7 @@ class DBHelper {
    */
   static fetchCuisines(callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -156,29 +97,5 @@ class DBHelper {
         callback(null, uniqueCuisines, new IndexPage());
       }
     });
-  }
-  /**
-   * Restaurant page URL.
-   */
-  static urlForRestaurant(restaurant) {
-    return `./restaurant.html?id=${restaurant.id}`;
-  }
-  /**
-   * Restaurant image URL
-   * @param {Object} restaurant
-   * @param {int|null} imgWidth
-   * @param {bool} usePlaceholder
-   */
-  static imageUrlForRestaurant(
-    restaurant,
-    imgWidth = 800,
-    usePlaceholder = false
-  ) {
-    const imgFolderPath = "./img/";
-    if (usePlaceholder) {
-      return `./img/img-ph-${imgWidth}w.svg`;
-    }
-
-    return `${imgFolderPath}${restaurant.id}-${imgWidth}w.jpg`;
   }
 }

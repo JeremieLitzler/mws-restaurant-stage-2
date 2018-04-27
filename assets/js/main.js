@@ -147,11 +147,8 @@ class IndexPage {
     const image = document.createElement("img");
     image.className = "lazyload restaurant-img";
     image.alt = `${restaurant.name} restaurant, ${restaurant.shortDesc}`;
-    image.src = DBHelper.imageUrlForRestaurant(restaurant, 128, true);
-    image.setAttribute(
-      "data-src",
-      DBHelper.imageUrlForRestaurant(restaurant, 128)
-    );
+    image.src = imageUrlForRestaurant(restaurant, 128, true);
+    image.setAttribute("data-src", imageUrlForRestaurant(restaurant, 128));
     imageContainer.appendChild(image);
     li.append(imageContainer);
     const descriptionItems = document.createElement("div");
@@ -176,7 +173,7 @@ class IndexPage {
     more.innerHTML = "View details";
     more.setAttribute("aria-label", moreBtnTitle);
     more.title = moreBtnTitle;
-    more.href = DBHelper.urlForRestaurant(restaurant);
+    more.href = urlForRestaurant(restaurant);
     moreContainer.appendChild(more);
     li.append(moreContainer);
     return li;
