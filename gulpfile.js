@@ -188,11 +188,11 @@ let jsCommonFiles = [
   "./assets/js/app.js",
   "./assets/js/lazysizes.min.js",
   "./assets/js/lazyload.gmaps.js",
-  "./assets/js/dbhelper.js",
   "./assets/js/focus.handler.js"
 ];
 
 let jsFilesIndexPage = [
+  "./assets/js/db/filters.js",
   "./assets/js/select.change.handler.js",
   "./assets/js/main.js"
 ];

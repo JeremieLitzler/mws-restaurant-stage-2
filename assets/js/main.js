@@ -18,7 +18,7 @@ class IndexPage {
    */
   fetchNeighborhoods() {
     let page = this;
-    DBHelper.fetchNeighborhoods((error, neighborhoods, page) => {
+    fetchNeighborhoods((error, neighborhoods, page) => {
       if (error) {
         // Got an error
         console.error(error);
@@ -45,7 +45,7 @@ class IndexPage {
   fetchCuisines() {
     let page = this;
 
-    DBHelper.fetchCuisines((error, cuisines, page) => {
+    fetchCuisines((error, cuisines, page) => {
       if (error) {
         // Got an error!
         console.error(error);
@@ -85,7 +85,7 @@ class IndexPage {
   updateRestaurants() {
     const filters = this.readFilters();
     document.getElementById("filters-modal").style.display = "none";
-    DBHelper.fetchRestaurantByCuisineAndNeighborhood(
+    fetchRestaurantByCuisineAndNeighborhood(
       filters.cuisine,
       filters.neighborhood,
       (error, restaurants) => {
@@ -180,7 +180,7 @@ class IndexPage {
   }
   updateMarkers() {
     const filters = this.readFilters();
-    DBHelper.fetchRestaurantByCuisineAndNeighborhood(
+    fetchRestaurantByCuisineAndNeighborhood(
       filters.cuisine,
       filters.neighborhood,
       (error, restaurants) => {

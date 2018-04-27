@@ -12,7 +12,7 @@ function fetchRestaurants(callback) {
   fetchDatabaseData(callback);
 }
 /**
- * Fetch the data at DBHelper.DATABASE_URL using the Web API method Fetch
+ * Fetch the data at DATABASE_URL using the Web API method Fetch
  * @param {*} callback
  */
 function fetchDatabaseData(callback) {
