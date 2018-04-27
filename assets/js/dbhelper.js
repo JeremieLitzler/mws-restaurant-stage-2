@@ -16,11 +16,6 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    if (!self.fetch) {
-      this.legacyXHRFetch(callback);
-      return;
-    }
-
     this.fetchDatabaseData(callback);
   }
 
@@ -44,28 +39,6 @@ class DBHelper {
       .catch(function(err) {
         console.error("Some error appended", err);
       });
-  }
-  /**
-   * Fetch the data at DBHelper.DATABASE_URL using a XHR request
-   * in case the fetch method is not supported.
-   * @param {*} callback
-   */
-  static legacyXHRFetch(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else {
-        // Oops!. Got an error from server.
-        const error = `Request failed. Returned status of ${xhr.status}`;
-        callback(error, null);
-      }
-    };
-    xhr.send();
   }
 
   /**
