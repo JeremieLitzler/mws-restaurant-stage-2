@@ -9,13 +9,34 @@ const DATABASE_URL = `http://localhost:1337/restaurants`;
  * @param {*} callback
  */
 function fetchRestaurants(callback) {
-  fetchDatabaseData(callback);
+  fetchCache(callback);
 }
+
+function fetchCache(callback) {
+  idbKeyval
+    .keys()
+    .then(response => {
+      console.log("idb keys", response);
+      const items = [];
+      response.forEach(key => {
+        items.push(getItem(key));
+      });
+      //still fetch the API in the background to update the cache.
+      fetchApi(callback);
+
+      //and return the cache items immediatly
+      callback(null, items);
+    })
+    .catch(err => {
+      callback(err, null);
+    });
+}
+
 /**
  * Fetch the data at DATABASE_URL using the Web API method Fetch
  * @param {*} callback
  */
-function fetchDatabaseData(callback) {
+function fetchApi(callback) {
   fetch(DATABASE_URL)
     .then(function(response) {
       if (response.ok) {
@@ -26,9 +47,11 @@ function fetchDatabaseData(callback) {
       console.log("Fetch failed response", response);
     })
     .then(function(restaurants) {
+      cacheItems(restaurants);
       callback(null, restaurants);
     })
     .catch(function(err) {
       console.error("Some error appended", err);
+      callback(err, null);
     });
 }

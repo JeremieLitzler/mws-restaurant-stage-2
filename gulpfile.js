@@ -7,7 +7,7 @@ const rename = require("gulp-rename");
 const babel = require("gulp-babel");
 
 /**
- * ESlint task checks the javascript files found in ./assets/js folder and subfolders.
+ * ESlint task checks the javascript files found in ./js folder and subfolders.
  * The lazysizes files and node_modules are excluded.
  */
 const eslint = require("gulp-eslint");
@@ -19,9 +19,9 @@ gulp.task("js-lint", () => {
   return (
     gulp
       .src([
-        "./assets/js/*.js",
+        "./js/*.js",
         "!node_modules/**",
-        "!assets/js/lazysizes**",
+        "!js/lazysizes**",
         "!build/js/io.min.js"
       ])
       // eslint() attaches the lint output to the "eslint" property
@@ -54,7 +54,7 @@ gulp.task("copy-root", () => {
  */
 gulp.task("copy-html", () => {
   gulp
-    .src(["./index.html", "./restaurant.html", "./assets/offline.html"])
+    .src(["./index.html", "./restaurant.html", "./offline.html"])
     .pipe(gulp.dest("./build"));
 });
 
@@ -70,7 +70,7 @@ gulp.task("copy-json", () => {
  */
 gulp.task("copy-icons", () => {
   gulp
-    .src([".assets/img/icons/*.svg", "./assets/img/icons/*.png"])
+    .src([".assets/img/icons/*.svg", "./img/icons/*.png"])
     .pipe(gulp.dest("./build/img/icons"));
 });
 
@@ -79,7 +79,7 @@ gulp.task("copy-icons", () => {
  */
 gulp.task("copy-img-ph", () => {
   //As long as the svg files are the image placeholders, this is fine.
-  gulp.src("./assets/img/*.svg").pipe(gulp.dest("./build/img"));
+  gulp.src("./img/*.svg").pipe(gulp.dest("./build/img"));
 });
 
 /**
@@ -99,7 +99,7 @@ gulp.task("copy-static-assets", [
 const $ = require("gulp-load-plugins")();
 gulp.task("optim-images", () => {
   return gulp
-    .src("assets/img/*.{jpg,png}")
+    .src("img/*.{jpg,png}")
     .pipe(
       $.responsive(
         {
@@ -181,20 +181,21 @@ let uglify = require("gulp-uglify-es").default;
  * jsCommonFiles is the list of javascript files that are common to both index and restaurant pages.
  */
 let jsCommonFiles = [
-  "./node_modules/idb/idb.js", //Idb with promise library
-  "./assets/js/lib/helpers.js",
-  "./assets/js/db/fetch.restaurants.js",
-  "./assets/js/db/fetch.restaurant.byid.js",
-  "./assets/js/app.js",
-  "./assets/js/lazysizes.min.js",
-  "./assets/js/lazyload.gmaps.js",
-  "./assets/js/focus.handler.js"
+  "./node_modules/idb-keyval/dist/idb-keyval-iife.js", //Idb with promise library
+  "./js/lib/helpers.js",
+  "./js/db/cache.request.js",
+  "./js/db/fetch.restaurants.js",
+  "./js/db/fetch.restaurant.byid.js",
+  "./js/app.js",
+  "./js/lazysizes.min.js",
+  "./js/lazyload.gmaps.js",
+  "./js/focus.handler.js"
 ];
 
 let jsFilesIndexPage = [
-  "./assets/js/db/filters.js",
-  "./assets/js/select.change.handler.js",
-  "./assets/js/main.js"
+  "./js/db/filters.js",
+  "./js/select.change.handler.js",
+  "./js/main.js"
 ];
 
 const finalJsFilesIndexPage = [...jsCommonFiles, ...jsFilesIndexPage];
@@ -302,8 +303,8 @@ gulp.task(
   ],
   () => {
     gulp.watch("./*.js", ["copy-root"]);
-    gulp.watch("./assets/js/**/*.js", ["scripts"]);
-    gulp.watch("./assets/css/**/*.css", ["optim-css"]);
+    gulp.watch("./js/**/*.js", ["scripts"]);
+    gulp.watch("./css/**/*.css", ["optim-css"]);
     gulp.watch("./**/*.html", ["copy-html"]);
   }
 );
