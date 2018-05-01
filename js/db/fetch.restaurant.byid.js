@@ -1,11 +1,18 @@
+function fetchRestaurantByIdInCache(id, callback) {
+    getCacheItem(id)
+        .then(restaurant => {
+            callback(null, restaurant);
+
+            fetchRestaurantByIdInApi(id, callback);
+        })
+        .catch(err => {
+            callback(err, null);
+        });
+}
 /**
- * Database URL.
- * Change this to your server's.
+ * Fetch a restaurant by its ID from the API.
  */
-/**
- * Fetch a restaurant by its ID.
- */
-function fetchRestaurantById(id, callback) {
+function fetchRestaurantByIdInApi(id, callback) {
     const DATABASE_URL = `http://localhost:1337/restaurants/${id}`;
     fetch(DATABASE_URL)
         .then(function(response) {
@@ -17,13 +24,26 @@ function fetchRestaurantById(id, callback) {
             console.log("Fetch failed response", response);
         })
         .then(restaurant => {
-            if (restaurant !== null) {
-                // Got the restaurant
-                callback(null, restaurant);
-                return;
-            }
-
-            callback(`Restaurant ${id} does not exist`, null);
+            cacheItem(restaurant)
+                .then(response => {
+                    console.log(
+                        `Just updated restaurant ID ${restaurant.id}`,
+                        response
+                    );
+                    if (restaurant !== null) {
+                        // Got the restaurant
+                        callback(null, restaurant);
+                    }
+                })
+                .catch(err => {
+                    console.error(
+                        `Failed to cache the restaurant ID ${
+                            restaurant.id
+                        }in cache`,
+                        err
+                    );
+                    callback(null, restaurant);
+                });
         })
         .catch(err => {
             callback(err, null);

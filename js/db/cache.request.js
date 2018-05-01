@@ -5,8 +5,8 @@ function cacheItems(items) {
 }
 function cacheItem(item) {
     //console.log(`About to cache the item which id is ${item.id}`);
-    idbKeyval.set(item.id, item);
+    return idbKeyval.set(item.id, item);
 }
-function getItem(key) {
+function getCacheItem(key) {
     return idbKeyval.get(key);
 }

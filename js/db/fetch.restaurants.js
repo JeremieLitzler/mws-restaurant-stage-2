@@ -19,7 +19,7 @@ function fetchCache(callback) {
             console.log("idb keys", response);
             const items = [];
             response.forEach(key => {
-                items.push(getItem(key));
+                items.push(getCacheItem(key));
             });
             //still fetch the API in the background to update the cache.
             fetchApi(callback);
