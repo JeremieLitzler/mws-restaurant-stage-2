@@ -20,7 +20,13 @@ function fetchCache(callback) {
             console.log("idb keys", response);
             const items = [];
             response.forEach(key => {
-                items.push(getCacheItem(key));
+                getCacheItem(key)
+                    .then(value => {
+                        items.push(value);
+                    })
+                    .catch(err => {
+                        console.error("GetCacheItem failed", err);
+                    });
             });
             //still fetch the API in the background to update the cache.
             fetchApi(callback);
