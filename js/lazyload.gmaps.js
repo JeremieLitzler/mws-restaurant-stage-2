@@ -6,7 +6,7 @@ class MapsMarker {
         const marker = new google.maps.Marker({
             position: restaurant.latlng,
             title: restaurant.name,
-            url: DBHelper.urlForRestaurant(restaurant),
+            url: urlForRestaurant(restaurant),
             map: map,
             animation: google.maps.Animation.DROP
         });
@@ -55,14 +55,19 @@ function google_maps_init_on_restopage() {
         if (error) {
             // Got an error!
             console.error(error);
-        } else {
-            self.map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 16,
-                center: restaurant.latlng,
-                scrollwheel: false
-            });
-            MapsMarker.mapMarkerForRestaurant(restaurant, self.map);
+            return;
         }
+
+        if (!restaurant) {
+            return;
+        }
+
+        self.map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 16,
+            center: restaurant.latlng,
+            scrollwheel: false
+        });
+        MapsMarker.mapMarkerForRestaurant(restaurant, self.map);
     });
 }
 /**

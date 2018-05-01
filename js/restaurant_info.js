@@ -1,5 +1,3 @@
-let restaurant;
-var map;
 class RestaurantPage {
     constructor(map) {
         this.map = map;
@@ -20,7 +18,7 @@ class RestaurantPage {
         const id = this.getParameterByName("id");
         if (!id) {
             // no id found in URL
-            error = "No restaurant id in URL";
+            const error = "No restaurant id in URL";
             throw error;
         }
 
@@ -31,19 +29,18 @@ class RestaurantPage {
      */
     loadRestaurantFromURL() {
         const restaurantId = this.getRestaurantId();
-        DBHelper.fetchRestaurantById(restaurantId, (error, restaurant) => {
+        fetchRestaurantByIdInCache(restaurantId, (error, restaurant) => {
             if (!restaurant) {
-                console.error(error);
                 return;
             }
             const page = new RestaurantPage();
-            page.setRestaurant(restaurant).fillRestaurantHTML(restaurant);
+            page.setRestaurant(restaurant).fillRestaurantHTML();
         });
     }
     /**
      * Create restaurant HTML and add it to the webpage
      */
-    fillRestaurantHTML(restaurant) {
+    fillRestaurantHTML() {
         this.fillBreadcrumb();
         const name = document.getElementById("restaurant-name");
         name.innerHTML = `At ${this.restaurant.name}`;
@@ -59,7 +56,7 @@ class RestaurantPage {
         image.alt = `${this.restaurant.name} restaurant, ${
             this.restaurant.shortDesc
         }`;
-        image.src = DBHelper.imageUrlForRestaurant(this.restaurant, 360, true);
+        image.src = imageUrlForRestaurant(this.restaurant, 360, true);
         image.srcset = this.buildSrcSet(this.restaurant);
         //image.setAttribute("data-sizes", "auto");
         //image.setAttribute("data-src", buildDataSrc(restaurant));
@@ -171,7 +168,7 @@ class RestaurantPage {
      * @param {restaurant} restaurant
      */
     buildDataSrc(restaurant) {
-        const img360w = DBHelper.imageUrlForRestaurant(restaurant, 360);
+        const img360w = imageUrlForRestaurant(restaurant, 360);
         const dataSrcVal = `${img360w}`;
         return dataSrcVal;
     }
@@ -180,9 +177,9 @@ class RestaurantPage {
      * @param {restaurant} restaurant
      */
     buildSrcSet(restaurant) {
-        const img360w = DBHelper.imageUrlForRestaurant(restaurant, 360);
-        const img480w = DBHelper.imageUrlForRestaurant(restaurant, 480);
-        const imgOriginalImproved = DBHelper.imageUrlForRestaurant(restaurant);
+        const img360w = imageUrlForRestaurant(restaurant, 360);
+        const img480w = imageUrlForRestaurant(restaurant, 480);
+        const imgOriginalImproved = imageUrlForRestaurant(restaurant);
         const srcSetVal = `${img360w} 360w, ${img480w} 480w, ${imgOriginalImproved} 800w`;
         return srcSetVal;
     }
@@ -192,10 +189,9 @@ class RestaurantPage {
      */
     addMarkerToMap(callback) {
         const restaurantId = this.getRestaurantId();
-        DBHelper.fetchRestaurantById(restaurantId, (error, restaurant) => {
+        fetchRestaurantByIdInCache(restaurantId, (error, restaurant) => {
             if (!restaurant) {
-                console.error(error);
-                callback(error, null);
+                return;
             }
 
             callback(null, restaurant);
