@@ -18,7 +18,7 @@
   "homepage": "https://github.com/JeremieLitzler/mws-restaurant-stage-1#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "browser-sync": "^2.23.6",
+    "browser-sync": "^2.24.1",
     "compression": "^1.7.2",
     "critical": "^1.2.2",
     "gulp": "^3.9.1",
