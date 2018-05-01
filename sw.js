@@ -32,7 +32,8 @@ const PRECACHE_URLS = [
     "./img/img-ph-128w.svg",
     "./img/img-ph-360w.svg",
     "./favicon.ico",
-    "./site.webmanifest"
+    "./site.webmanifest",
+    "./data/restaurants.json"
 ];
 const buildImageUrlsArray = () => {
     let imgUrls = [];
@@ -122,8 +123,14 @@ self.addEventListener("fetch", event => {
         event.respondWith(
             caches.match(event.request).then(cachedResponse => {
                 if (cachedResponse) {
+                    console.log(
+                        `Request ${requestUrl} is found in the cache. We return it...`
+                    );
                     return cachedResponse;
                 }
+                console.log(
+                    `Request ${requestUrl} is not found in the cache. Fetching from network...`
+                );
                 let targetCache = RUNTIME;
                 if (requestUrl.endsWith("jpg")) {
                     targetCache = RUNTIME_IMG;

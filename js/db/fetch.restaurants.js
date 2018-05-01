@@ -2,7 +2,8 @@
  * Database URL.
  * Change this to your server's.
  */
-const DATABASE_URL = "http://localhost:1337/restaurants";
+const API_URL = "http://localhost:1337/restaurants";
+const STATIC_DATA_URL = `${location.origin}/data/restaurants.json`;
 
 /**
  * Fetch all restaurants.
@@ -37,21 +38,41 @@ function fetchCache(callback) {
  * @param {*} callback
  */
 function fetchApi(callback) {
-    fetch(DATABASE_URL)
-        .then(function(response) {
+    fetch(API_URL)
+        .then(response => {
             if (response.ok) {
                 const jsonData = response.json();
-                console.log(jsonData);
+                //console.log(jsonData);
                 return jsonData;
             }
             console.log("Fetch failed response", response);
         })
-        .then(function(restaurants) {
+        .then(restaurants => {
             cacheItems(restaurants);
             callback(null, restaurants);
         })
-        .catch(function(err) {
-            console.error("Some error appended", err);
-            callback(err, null);
+        .catch(err => {
+            console.error(
+                "API is not available. Falling back to the static data...",
+                err
+            );
+            fetch(STATIC_DATA_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        return callback(response, null);
+                    }
+                    const jsonData = response.json();
+                    //console.log(jsonData);
+                    return jsonData;
+                })
+                .then(data => {
+                    const restaurants = Object.values(data.restaurants);
+                    cacheItems(restaurants);
+                    callback(null, restaurants);
+                })
+                .catch(err => {
+                    console.error("Some error appended", err);
+                    callback(err, null);
+                });
         });
 }
