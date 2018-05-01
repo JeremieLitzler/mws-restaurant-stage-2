@@ -46,6 +46,28 @@ function fetchRestaurantByIdInApi(id, callback) {
                 });
         })
         .catch(err => {
-            callback(err, null);
+            console.error(
+                "API is not available. Falling back to the static data...",
+                err
+            );
+            const STATIC_DATA_URL = `${location.origin}/data/restaurants.json`;
+            fetch(STATIC_DATA_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        return callback(response, null);
+                    }
+                    const jsonData = response.json();
+                    //console.log(jsonData);
+                    return jsonData;
+                })
+                .then(data => {
+                    const restaurants = Object.values(data.restaurants);
+                    cacheItem(restaurants[id]);
+                    callback(null, restaurants[id]);
+                })
+                .catch(err => {
+                    console.error("Some error appended", err);
+                    callback(err, null);
+                });
         });
 }

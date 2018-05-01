@@ -76,13 +76,22 @@ gulp.task("copy-img-ph", () => {
 });
 
 /**
+ * Copy the json data file into the build folder
+ */
+
+gulp.task("copy-static-data", () => {
+    gulp.src(["./data/restaurants.json"]).pipe(gulp.dest("./build/data"));
+});
+
+/**
  * Run the copy tasks of the static assets into one task.
  */
 gulp.task("copy-static-assets", [
     "copy-root",
     "copy-html",
     "copy-icons",
-    "copy-img-ph"
+    "copy-img-ph",
+    "copy-static-data"
 ]);
 
 /**
