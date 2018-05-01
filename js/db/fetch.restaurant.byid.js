@@ -1,8 +1,8 @@
 function fetchRestaurantByIdInCache(id, callback) {
     getCacheItem(id)
         .then(restaurant => {
-            fetchRestaurantByIdInApi(id, callback);
             callback(null, restaurant);
+            fetchRestaurantByIdInApi(id, callback);
         })
         .catch(err => {
             callback(err, null);
