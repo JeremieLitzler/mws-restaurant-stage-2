@@ -59,18 +59,11 @@ gulp.task("copy-html", () => {
 });
 
 /**
- * Copy the json data file into the build folder
- */
-gulp.task("copy-json", () => {
-    gulp.src(["./data/restaurants.json"]).pipe(gulp.dest("./build/data"));
-});
-
-/**
  * Copy the icons into the build folder
  */
 gulp.task("copy-icons", () => {
     gulp
-        .src([".assets/img/icons/*.svg", "./img/icons/*.png"])
+        .src(["./img/icons/*.svg", "./img/icons/*.png"])
         .pipe(gulp.dest("./build/img/icons"));
 });
 
@@ -88,7 +81,6 @@ gulp.task("copy-img-ph", () => {
 gulp.task("copy-static-assets", [
     "copy-root",
     "copy-html",
-    "copy-json",
     "copy-icons",
     "copy-img-ph"
 ]);
@@ -138,7 +130,7 @@ const uglifycss = require("gulp-uglifycss");
 gulp.task("optim-css", callback => {
     pump(
         [
-            gulp.src("assets/css/**/*.css"),
+            gulp.src("css/**/*.css"),
             autoprefixer(),
             uglifycss({
                 maxLineLen: 80,
@@ -184,8 +176,6 @@ let jsCommonFiles = [
     "./node_modules/idb-keyval/dist/idb-keyval-iife.js", //Idb with promise library
     "./js/lib/helpers.js",
     "./js/db/cache.request.js",
-    "./js/db/fetch.restaurants.js",
-    "./js/db/fetch.restaurant.byid.js",
     "./js/app.js",
     "./js/lazysizes.min.js",
     "./js/lazyload.gmaps.js",
@@ -193,6 +183,7 @@ let jsCommonFiles = [
 ];
 
 let jsFilesIndexPage = [
+    "./js/db/fetch.restaurants.js",
     "./js/db/filters.js",
     "./js/select.change.handler.js",
     "./js/main.js"
@@ -221,7 +212,10 @@ gulp.task("optim-js-index-page", callback => {
  *     - declaring the files in the proper order.
  *     - minifying the javascript code.
  */
-let jsFilesRestaurantPage = ["assets/js/restaurant_info.js"];
+let jsFilesRestaurantPage = [
+    "./js/db/fetch.restaurant.byid.js",
+    "./js/restaurant_info.js"
+];
 const finalJsFilesRestaurantPage = [...jsCommonFiles, ...jsFilesRestaurantPage];
 //console.log("JS files to optimise for index page", finalJsFilesRestaurantPage);
 gulp.task("optim-js-restaurant-page", callback => {
@@ -289,7 +283,7 @@ gulp.task("scripts", [
  *     - optimize the javascript
  */
 //https://stackoverflow.com/a/28460016
-const compress = require("compression");
+//const compress = require("compression");
 //const browserSync = require("browser-sync").create();
 gulp.task(
     "default",
