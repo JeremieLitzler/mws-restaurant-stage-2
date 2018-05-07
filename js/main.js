@@ -17,18 +17,13 @@ class IndexPage {
    * Fetch all neighborhoods and set their HTML.
    */
   fetchNeighborhoods() {
-    const neighborhoods = getNeighborhoodsWithPromise()
-      .then(result => {
-        console.warn("fetchNeighborhoods result", result);
+    getNeighborhoodsWithPromise()
+      .then(neighborhoods => {
+        this.fillNeighborhoodsHTML(neighborhoods);
       })
       .catch(err => {
         console.error("fetchNeighborhoods", err);
       });
-    if (!neighborhoods) {
-      return;
-    }
-
-    this.fillNeighborhoodsHTML(neighborhoods);
   }
   /**
    * Set neighborhoods HTML.

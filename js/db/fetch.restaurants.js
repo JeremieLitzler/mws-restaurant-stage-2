@@ -1,5 +1,3 @@
-import { resolve } from "dns";
-
 /**
  * Database URL.
  * Change this to your server's.
@@ -58,7 +56,22 @@ function fetchCachePromise() {
 }
 
 function parseData(data) {
-  return data;
+  var allGetItemPromises = [];
+  data.forEach(key => {
+    allGetItemPromises.push(
+      getCacheItem(key)
+        .then(value => {
+          return value;
+        })
+        .catch(err => {
+          console.error("GetCacheItem failed", err);
+        })
+    );
+  });
+  console.log(allGetItemPromises);
+  return Promise.all(allGetItemPromises).then(fullItems => {
+    return fullItems;
+  });
 }
 /**
  * Fetch the data at DATABASE_URL using the Web API method Fetch
