@@ -70,18 +70,20 @@ function parseData(data) {
     });
     console.log(allGetItemPromises);
     return Promise.all(allGetItemPromises).then(fullItems => {
-        if (!fullItems) {
-            return false;
-        }
         if (
+            !fullItems ||
             fullItems === undefined ||
             fullItems === null ||
             fullItems.length === 0
         ) {
-            return false;
+            const apiPromise = fetchApi2();
+            return Promise.all(apiPromise).then(fullItems => {
+                return fullItems;
+            });
         }
+        fetchApi2(); //fetch the api to update the cache.
 
-        return fullItems;
+        return fullItems; //... and return the cached values
     });
 }
 /**
@@ -124,6 +126,49 @@ function fetchApi(callback) {
                 .catch(err => {
                     console.error("Some error appended", err);
                     callback(err, null);
+                });
+        });
+}
+/**
+ * Fetch the data at DATABASE_URL using the Web API method Fetch
+ * @param {*} callback
+ */
+function fetchApi2() {
+    fetch(API_URL)
+        .then(response => {
+            if (response.ok) {
+                const jsonData = response.json();
+                //console.log(jsonData);
+                return jsonData;
+            }
+            console.log("Fetch failed response", response);
+        })
+        .then(restaurants => {
+            cacheItems(restaurants);
+            return restaurants;
+        })
+        .catch(err => {
+            console.error(
+                "API is not available. Falling back to the static data...",
+                err
+            );
+            fetch(STATIC_DATA_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        return false;
+                    }
+                    const jsonData = response.json();
+                    //console.log(jsonData);
+                    return jsonData;
+                })
+                .then(data => {
+                    const restaurants = Object.values(data.restaurants);
+                    cacheItems(restaurants);
+                    return restaurants;
+                })
+                .catch(err => {
+                    console.error("Some error appended", err);
+                    return false;
                 });
         });
 }

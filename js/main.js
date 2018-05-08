@@ -66,23 +66,16 @@ class IndexPage {
     updateRestaurants() {
         const filters = this.readFilters();
         document.getElementById("filters-modal").style.display = "none";
-        fetchRestaurantByCuisineAndNeighborhood(
-            filters.cuisine,
-            filters.neighborhood,
-            (error, restaurants) => {
-                const page = new IndexPage();
-                if (error) {
-                    // Got an error!
-                    console.error(error);
-                } else {
-                    page
-                        .setRestaurants(restaurants)
-                        .hideLoadingScreen()
-                        .resetRestaurants()
-                        .fillRestaurantsHTML();
-                }
-            }
-        );
+        fetchRestaurantFiltered(filters)
+            .then(restaurants => {
+                this.setRestaurants(restaurants)
+                    .resetRestaurants()
+                    .fillRestaurantsHTML()
+                    .hideLoadingScreen();
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
     /**
      * Clear current restaurants, their HTML and remove their map markers.

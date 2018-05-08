@@ -103,19 +103,21 @@ function fetchRestaurantByCuisineAndNeighborhood(
 /**
  * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
  */
-function fetchRestaurantFiltered(filter) {
+function fetchRestaurantFiltered(filters) {
     // Fetch all restaurants
     return fetchRestaurantsWithPromise()
         .then(restaurants => {
             let results = restaurants;
-            if (filter.cuisine != "all") {
+            if (filters.cuisine != "all") {
                 // filter by cuisine
-                results = results.filter(r => r.cuisine_type == filter.cuisine);
+                results = results.filter(
+                    r => r.cuisine_type == filters.cuisine
+                );
             }
-            if (filter.neighborhood != "all") {
+            if (filters.neighborhood != "all") {
                 // filter by neighborhood
                 results = results.filter(
-                    r => r.neighborhood == filter.neighborhood
+                    r => r.neighborhood == filters.neighborhood
                 );
             }
             return results;
