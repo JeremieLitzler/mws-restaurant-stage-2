@@ -20,10 +20,13 @@ class IndexPage {
         getFilters()
             .then(filters => {
                 if (filters.neighborhoods) {
-                    this.fillNeighborhoodsHTML(filters.neighborhoods);
+                    this.fillFilterHtml(
+                        filters.neighborhoods,
+                        "neighborhoods-select"
+                    );
                 }
                 if (filters.cuisines) {
-                    this.fillCuisinesHTML(filters.cuisines);
+                    this.fillFilterHtml(filters.cuisines, "cuisines-select");
                 }
             })
             .catch(err => {
@@ -31,43 +34,19 @@ class IndexPage {
             });
     }
     /**
-     * Set neighborhoods HTML.
+     * Set Filter HTML.
      */
-    fillNeighborhoodsHTML(neighborhoods) {
-        const select = document.getElementById("neighborhoods-select");
-        neighborhoods.forEach(neighborhood => {
-            if (neighborhood === undefined) return;
+    fillFilterHtml(items, targetElement) {
+        const select = document.getElementById(targetElement);
+        items.forEach(item => {
+            if (item === undefined) return;
             const option = document.createElement("option");
-            option.innerHTML = neighborhood;
-            option.value = neighborhood;
+            option.innerHTML = item;
+            option.value = item;
             select.append(option);
         });
     }
-    /**
-     * Fetch all cuisines and set their HTML.
-     */
-    fetchCuisines() {
-        getValuesFor("cuisine")
-            .then(cuisines => {
-                this.fillCuisinesHTML(cuisines);
-            })
-            .catch(err => {
-                console.error("fetchCuisines", err);
-            });
-    }
-    /**
-     * Set cuisines HTML.
-     */
-    fillCuisinesHTML(cuisines) {
-        const select = document.getElementById("cuisines-select");
-        cuisines.forEach(cuisine => {
-            if (cuisine === undefined) return;
-            const option = document.createElement("option");
-            option.innerHTML = cuisine;
-            option.value = cuisine;
-            select.append(option);
-        });
-    }
+
     readFilters() {
         const cSelect = document.getElementById("cuisines-select");
         const nSelect = document.getElementById("neighborhoods-select");
