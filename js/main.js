@@ -16,10 +16,15 @@ class IndexPage {
     /**
      * Fetch all neighborhoods and set their HTML.
      */
-    fetchNeighborhoods() {
-        getValuesFor("neighborhood")
-            .then(neighborhoods => {
-                this.fillNeighborhoodsHTML(neighborhoods);
+    fetchFilters() {
+        getFilters()
+            .then(filters => {
+                if (filters.neighborhoods) {
+                    this.fillNeighborhoodsHTML(filters.neighborhoods);
+                }
+                if (filters.cuisines) {
+                    this.fillCuisinesHTML(filters.cuisines);
+                }
             })
             .catch(err => {
                 console.error("fetchNeighborhoods", err);
@@ -210,6 +215,5 @@ class IndexPage {
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener("DOMContentLoaded", event => {
-    new IndexPage().fetchNeighborhoods();
-    new IndexPage().fetchCuisines();
+    new IndexPage().fetchFilters();
 });

@@ -184,24 +184,25 @@ function fetchCuisines(callback) {
 /**
  * Fetch all neighborhoods with proper error handling.
  */
-function getValuesFor(type) {
-    if (type !== "cuisine" && type !== "neighborhood") {
-        throw "type parameter must be cuisine or neighborhood";
-    }
+function getFilters() {
     // Fetch all restaurants
     return fetchRestaurantsWithPromise()
         .then(restaurants => {
-            let values = [];
-            if (type === "cuisine") {
-                values = restaurants.map((v, i) => restaurants[i].cuisine_type);
-            }
-            if (type === "neighborhood") {
-                values = restaurants.map((v, i) => restaurants[i].neighborhood);
-            }
-            const uniqueValues = values.filter(
-                (v, i) => values.indexOf(v) == i
+            const filters = {};
+            const cuisines = restaurants.map(
+                (v, i) => restaurants[i].cuisine_type
             );
-            return uniqueValues;
+            const neighborhoods = restaurants.map(
+                (v, i) => restaurants[i].neighborhood
+            );
+
+            filters.cuisines = cuisines.filter(
+                (v, i) => cuisines.indexOf(v) == i
+            );
+            filters.neighborhoods = neighborhoods.filter(
+                (v, i) => neighborhoods.indexOf(v) == i
+            );
+            return filters;
         })
         .catch(err => {
             console.error(err);
