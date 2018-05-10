@@ -154,19 +154,9 @@ class IndexPage {
     }
     updateMarkers() {
         const filters = this.readFilters();
-        fetchRestaurantByCuisineAndNeighborhood(
-            filters.cuisine,
-            filters.neighborhood,
-            (error, restaurants) => {
-                const page = new IndexPage();
-                if (error) {
-                    // Got an error!
-                    console.error(error);
-                } else {
-                    page.setRestaurants(restaurants).addMarkersToMap();
-                }
-            }
-        );
+        fetchRestaurantFiltered(filters).then(restaurants => {
+            this.setRestaurants(restaurants).addMarkersToMap();
+        });
     }
     /**
      * Add markers for current restaurants to the map.
