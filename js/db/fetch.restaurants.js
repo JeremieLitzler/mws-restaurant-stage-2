@@ -69,22 +69,30 @@ function parseData(data) {
         );
     });
     console.log(allGetItemPromises);
-    return Promise.all(allGetItemPromises).then(fullItems => {
-        if (
-            !fullItems ||
-            fullItems === undefined ||
-            fullItems === null ||
-            fullItems.length === 0
-        ) {
-            const apiPromise = fetchApi2();
-            return Promise.all(apiPromise).then(fullItems => {
-                return fullItems;
-            });
-        }
-        fetchApi2(); //fetch the api to update the cache.
+    return Promise.all(allGetItemPromises)
+        .then(fullItems => {
+            if (
+                !fullItems ||
+                fullItems === undefined ||
+                fullItems === null ||
+                fullItems.length === 0
+            ) {
+                //nothing in idb so query the api!
+                return fetchApi2()
+                    .then(apiItems => {
+                        return apiItems;
+                    })
+                    .catch(err => {
+                        console.error("Api call error", err);
+                    });
+            }
+            fetchApi2(); //fetch the api to update the idb database.
 
-        return fullItems; //... and return the cached values
-    });
+            return fullItems; //... and return the idb values
+        })
+        .catch(err => {
+            console.error("allGetItemPromises error", err);
+        });
 }
 /**
  * Fetch the data at DATABASE_URL using the Web API method Fetch
@@ -134,7 +142,7 @@ function fetchApi(callback) {
  * @param {*} callback
  */
 function fetchApi2() {
-    fetch(API_URL)
+    return fetch(API_URL)
         .then(response => {
             if (response.ok) {
                 const jsonData = response.json();
