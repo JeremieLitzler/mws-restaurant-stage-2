@@ -1,22 +1,3 @@
-//const GOOGLE_MAPS_API_KEY = "AIzaSyBXysE433qRY0W9gup0-_N5UF_0ObJK3oc";
-// let appAlias = "";
-// if (location.port === "8001") {
-//     appAlias = "mws-restaurant-stage-2";
-// }
-
-// function openDatabase() {
-//     // If the browser doesn't support service worker,
-//     // we don't care about having a database
-//     if (!navigator.serviceWorker) {
-//         return Promise.resolve();
-//     }
-//     return idb.open("rreviews-db", 1, function(upgradeDb) {
-//         var store = upgradeDb.createObjectStore("rreviews", {
-//             keyPath: "id"
-//         });
-//         store.createIndex("by-date", "time");
-//     });
-// }
 function isBrowserCompatiblewithServiceWorkers() {
   if (!navigator.serviceWorker) {
     console.warn("ServiceWorker is not compatible with this browser...");
@@ -66,6 +47,13 @@ window.addEventListener("load", () => {
   for (const link of homeLinks) {
     link.href = "./";
   }
+  checkIfOffline();
+});
+/**
+ * Check that there is no connectivity by doing a network fetch on a resource that the service worker doesn't catch ;)
+ * Then display a custom message in place of the map container.
+ */
+function checkIfOffline() {
   this.fetch("./offline.html").catch(response => {
     if (response.name === "TypeError") {
       //Show the placeholder and hide the map element
@@ -79,4 +67,4 @@ window.addEventListener("load", () => {
       }
     }
   });
-});
+}

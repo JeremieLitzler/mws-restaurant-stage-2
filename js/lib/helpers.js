@@ -26,10 +26,14 @@ function imageUrlForRestaurant(
     console.error("Restaurant is null. Cannot build the image URL");
     return;
   }
-  const imgFolderPath = "./img/";
+
   if (usePlaceholder) {
     return `./img/img-ph-${imgWidth}w.svg`;
   }
 
+  if (restaurant.id === null) {
+    return `./img/missing-${imgWidth}w.svg`;
+  }
+  const imgFolderPath = "./img/";
   return `${imgFolderPath}${restaurant.id}-${imgWidth}w.jpg`;
 }
