@@ -1,14 +1,10 @@
-function fetchRestaurantByIdInCache(id, callback) {
-  getCacheItem(id)
-    .then(restaurant => {
-      callback(null, restaurant);
-      fetchRestaurantByIdInApi(id, callback);
-    })
-    .catch(err => {
-      callback(err, null);
-    });
-}
-
+/**
+ * Fetch the restaurant from:
+ *   - the cache first
+ *   - if not present in cache, which can happen if the link has been crawled, fetch the api and cache the result
+ *   - if present in cache, still fetch the api for an update.
+ * @param {int} id
+ */
 function fetchRestaurant(id) {
   return getCacheItem(id)
     .then(restaurant => {
@@ -25,68 +21,10 @@ function fetchRestaurant(id) {
       console.error(err);
     });
 }
+
 /**
  * Fetch a restaurant by its ID from the API.
- */
-function fetchRestaurantByIdInApi(id, callback) {
-  const DATABASE_URL = `http://localhost:1337/restaurants/${id}`;
-  fetch(DATABASE_URL)
-    .then(function(response) {
-      if (response.ok) {
-        const jsonData = response.json();
-        console.log(jsonData);
-        return jsonData;
-      }
-      if (DEBUG) console.log("Fetch failed response", response);
-    })
-    .then(restaurant => {
-      cacheItem(restaurant)
-        .then(response => {
-          if (DEBUG)
-            console.log(
-              `Just updated restaurant ID ${restaurant.id}`,
-              response
-            );
-          if (restaurant !== null) {
-            // Got the restaurant
-            callback(null, restaurant);
-          }
-        })
-        .catch(err => {
-          console.error(
-            `Failed to cache the restaurant ID ${restaurant.id}in cache`,
-            err
-          );
-          callback(null, restaurant);
-        });
-    })
-    .catch(err => {
-      console.error(
-        "API is not available. Falling back to the static data...",
-        err
-      );
-      const STATIC_DATA_URL = `${location.origin}/data/restaurants.json`;
-      fetch(STATIC_DATA_URL)
-        .then(response => {
-          if (!response.ok) {
-            return callback(response, null);
-          }
-          const jsonData = response.json();
-          return jsonData;
-        })
-        .then(data => {
-          const restaurants = Object.values(data.restaurants);
-          cacheItem(restaurants[id]);
-          callback(null, restaurants[id]);
-        })
-        .catch(err => {
-          console.error("Some error appended", err);
-          callback(err, null);
-        });
-    });
-}
-/**
- * Fetch a restaurant by its ID from the API.
+ * @param {int} id
  */
 function fetchRestaurantFromApi(id) {
   const DATABASE_URL = `http://localhost:1337/restaurants/${id}`;
