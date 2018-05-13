@@ -560,11 +560,14 @@ nav h1 a {
 .hide-gmaps {
   display: none;
 }
-#map {
+#static-map, #map {
   height: 40vh;
   width: 100%;
   background-color: transparent;
   float: left;
+}
+#map {
+  display: none;
 }
 /*#maincontent > section.map-container > .the-map {
     display: none;
