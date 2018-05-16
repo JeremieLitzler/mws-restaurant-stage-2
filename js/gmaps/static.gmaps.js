@@ -1,5 +1,3 @@
-const STATIC_API_KEY = "AIzaSyB8mGRExPGJ5-h6QjBu1-MsUoAm4kWKaqY";
-
 let mapContainer = document.querySelector(".map-container");
 let staticMapContainer = document.querySelector("#static-map");
 
@@ -32,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     imageWidth = window.innerWidth;
     imageHeight = parseInt(imageWidth * viewPortHeightPercent);
   }
-  const staticApiDynamicUrl = `https://maps.googleapis.com/maps/api/staticmap?center=40.7125844,-73.9713328&scale=${imageScale}&zoom=${defaultZoom}&size=${imageWidth}x${imageHeight}&key=${STATIC_API_KEY}`;
+  const staticApiDynamicUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${CENTER_LATITUDE},${CENTER_LONGITUDE}&scale=${imageScale}&zoom=${defaultZoom}&size=${imageWidth}x${imageHeight}&key=${STATIC_API_KEY}`;
 
   console.log("image url", staticApiDynamicUrl);
   const staticMapImg = document.createElement("img");
