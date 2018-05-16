@@ -188,6 +188,7 @@ let jsCommonFiles = [
   "./js/db/cache.request.js",
   "./js/app.js",
   "./js/lazysizes.min.js",
+  "./js/gmaps/constants.js",
   "./js/gmaps/static.gmaps.js",
   "./js/gmaps/lazyload.gmaps.js",
   "./js/focus.handler.js"
