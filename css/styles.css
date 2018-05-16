@@ -703,7 +703,7 @@ select option:checked {
     .index-page-container .map-container {
         height: 40vh;
     }
-    #restaurants-list {
+    .restaurants-list-container ul {
         display: grid;
         grid-template-columns: auto auto;
     }
@@ -718,27 +718,9 @@ select option:checked {
 }
 
 @media screen and (min-width: 800px) {
-    .restaurants-container {
-        display: flex;
-    }
-    .restaurant-container article {
-        max-height: 100%;
-    }
-    .restaurants-container .filters-container {
-        flex: 1;
-    }
-    .restaurants-container .restaurants-list-container {
-        flex: 2;
-        overflow: scroll;
-    }
-    #restaurants-list {
-        display: block;
-    }
-}
-
-@media screen and (min-width: 1024px) {
-    .address {
-        display: block;
+    .restaurants-list-container ul {
+        grid-template-columns: auto auto auto;
+        margin: 0 10vw;
     }
 }
 
