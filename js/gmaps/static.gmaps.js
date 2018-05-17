@@ -40,7 +40,10 @@ class StaticMapGenerator {
     );
     return height;
   }
-
+  /**
+   * Get the Google Maps Static API Url to generate the image.
+   * The center is defined by CENTER_LATITUDE and CENTER_LONGITUDE constants.
+   */
   getApiUrl() {
     if (this.doesWindowWidthExceedFreePlan()) {
       this.imageHeight = this.getImageHeightInPx();
@@ -60,17 +63,7 @@ class StaticMapGenerator {
 
     return apiUrl;
   }
-
-  createStaticMapImageElement() {
-    const staticMapImg = document.createElement("img");
-    staticMapImg.alt = "Static Google Maps";
-    staticMapImg.src = this.getApiUrl();
-    staticMapContainer.appendChild(staticMapImg);
-  }
 }
-document.addEventListener("DOMContentLoaded", () => {
-  new StaticMapGenerator().createStaticMapImageElement();
-});
 
 const dynamicMapContainer = document.getElementById("map");
 
