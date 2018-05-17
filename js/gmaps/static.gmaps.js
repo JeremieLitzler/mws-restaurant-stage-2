@@ -13,8 +13,11 @@ class StaticMapGenerator {
     this.defaultZoom = 11;
   }
 
-  static get widthHeightRatio() {
+  static get widthHeightRatioNarrow() {
     return 0.4;
+  }
+  static get widthHeightRatioWide() {
+    return 1.2;
   }
   static get maxWidthForFreeApiPlan() {
     return 640;
@@ -32,10 +35,14 @@ class StaticMapGenerator {
     return window.innerWidth < 650;
   }
 
-  getImageHeightInPx() {
+  /**
+   * Calculate the image height in pixels using the given ratio.
+   * @param {float} ratio | StaticMapGenerator.widthHeightRatio
+   */
+  getImageHeightInPx(ratio = StaticMapGenerator.widthHeightRatio) {
     const height = parseInt(
       StaticMapGenerator.maxWidthForFreeApiPlan *
-        (window.innerHeight * StaticMapGenerator.widthHeightRatio) /
+        (window.innerHeight * ratio) /
         window.innerWidth
     );
     return height;
@@ -61,6 +68,29 @@ class StaticMapGenerator {
       this.imageHeight
     }&key=${STATIC_API_KEY}`;
 
+    return apiUrl;
+  }
+  getApiUrlForRestaurant(restaurant) {
+    this.defaultZoom = 16;
+    if (this.doesWindowWidthExceedFreePlan()) {
+      this.imageHeight = this.getImageHeightInPx(
+        StaticMapGenerator.widthHeightRatioWide
+      );
+      this.imageScale = 2;
+    }
+    if (this.isWindowWidthUnderTabletBreakPoint()) {
+      this.imageWidth = window.innerWidth;
+      this.imageHeight = parseInt(
+        this.imageWidth * StaticMapGenerator.widthHeightRatio
+      );
+    }
+    const apiUrl = `https://maps.googleapis.com/maps/api/staticmap?markers=color:red%7C${
+      restaurant.latlng.lat
+    },${restaurant.latlng.lng}&scale=${this.imageScale}&zoom=${
+      this.defaultZoom
+    }&size=${this.imageWidth}x${this.imageHeight}&key=${STATIC_API_KEY}`;
+
+    console.log(apiUrl);
     return apiUrl;
   }
 }
