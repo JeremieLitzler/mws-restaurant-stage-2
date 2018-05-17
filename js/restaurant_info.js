@@ -34,7 +34,9 @@ class RestaurantPage {
         if (!restaurant) {
           return false;
         }
-        this.setRestaurant(restaurant).fillRestaurantHTML();
+        this.setRestaurant(restaurant)
+          .fillRestaurantHTML()
+          .createStaticMapImageElement();
       })
       .catch(err => {
         console.error(err);
@@ -70,6 +72,8 @@ class RestaurantPage {
     }
     // fill reviews
     this.fillReviewsHTML(this.restaurant.reviews);
+
+    return this;
   }
   /**
    * Create restaurant operating hours HTML table and add it to the webpage.
@@ -202,6 +206,19 @@ class RestaurantPage {
       .catch(err => {
         console.error(err);
       });
+  }
+  /**
+   * Load the static Google Maps image.
+   */
+  createStaticMapImageElement() {
+    let staticMapContainer = document.querySelector("#static-map");
+    const staticMapImg = document.createElement("img");
+    staticMapImg.alt =
+      "Static Google Maps of New-york. Hover or click to view the restaurants location.";
+    staticMapImg.src = new StaticMapGenerator("index").getApiUrlForRestaurant(
+      this.restaurant
+    );
+    staticMapContainer.appendChild(staticMapImg);
   }
 }
 /**
