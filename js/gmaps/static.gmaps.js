@@ -13,6 +13,9 @@ class StaticMapGenerator {
     this.defaultZoom = 11;
   }
 
+  static get staticApiBaseUrl() {
+    return "https://maps.googleapis.com/maps/api/staticmap";
+  }
   static get widthHeightRatioNarrow() {
     return 0.4;
   }
@@ -62,7 +65,9 @@ class StaticMapGenerator {
         this.imageWidth * StaticMapGenerator.widthHeightRatio
       );
     }
-    const apiUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${CENTER_LATITUDE},${CENTER_LONGITUDE}&scale=${
+    const apiUrl = `${
+      StaticMapGenerator.staticApiBaseUrl
+    }?center=${CENTER_LATITUDE},${CENTER_LONGITUDE}&scale=${
       this.imageScale
     }&zoom=${this.defaultZoom}&size=${this.imageWidth}x${
       this.imageHeight
@@ -84,11 +89,13 @@ class StaticMapGenerator {
         this.imageWidth * StaticMapGenerator.widthHeightRatio
       );
     }
-    const apiUrl = `https://maps.googleapis.com/maps/api/staticmap?markers=color:red%7C${
-      restaurant.latlng.lat
-    },${restaurant.latlng.lng}&scale=${this.imageScale}&zoom=${
-      this.defaultZoom
-    }&size=${this.imageWidth}x${this.imageHeight}&key=${STATIC_API_KEY}`;
+    const apiUrl = `${
+      StaticMapGenerator.staticApiBaseUrl
+    }?markers=color:red%7C${restaurant.latlng.lat},${
+      restaurant.latlng.lng
+    }&scale=${this.imageScale}&zoom=${this.defaultZoom}&size=${
+      this.imageWidth
+    }x${this.imageHeight}&key=${STATIC_API_KEY}`;
 
     console.log(apiUrl);
     return apiUrl;
