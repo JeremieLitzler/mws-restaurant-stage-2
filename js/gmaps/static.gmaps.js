@@ -42,13 +42,18 @@ class StaticMapGenerator {
    * Calculate the image height in pixels using the given ratio.
    * @param {float} ratio | StaticMapGenerator.widthHeightRatio
    */
-  getImageHeightInPx(ratio = StaticMapGenerator.widthHeightRatio) {
-    const height = parseInt(
-      StaticMapGenerator.maxWidthForFreeApiPlan *
-        (window.innerHeight * ratio) /
-        window.innerWidth
+  getImageHeightInPx(ratio, useApiWidhtLimitConst = true) {
+    const maxWidth = useApiWidhtLimitConst
+      ? StaticMapGenerator.maxWidthForFreeApiPlan
+      : window.innerWidth;
+
+    console.log("ratio", ratio);
+    const calculatedHeight = parseInt(
+      maxWidth * (window.innerHeight * ratio) / window.innerWidth
     );
-    return height;
+
+    console.log(calculatedHeight);
+    return calculatedHeight;
   }
   /**
    * Get the Google Maps Static API Url to generate the image.
@@ -56,14 +61,18 @@ class StaticMapGenerator {
    */
   getApiUrl() {
     if (this.doesWindowWidthExceedFreePlan()) {
-      this.imageHeight = this.getImageHeightInPx();
+      this.imageHeight = this.getImageHeightInPx(
+        StaticMapGenerator.widthHeightRatioNarrow
+      );
       this.imageScale = 2;
     }
     if (this.isWindowWidthUnderTabletBreakPoint()) {
       this.imageWidth = window.innerWidth;
-      this.imageHeight = parseInt(
-        this.imageWidth * StaticMapGenerator.widthHeightRatio
+      this.imageHeight = this.getImageHeightInPx(
+        StaticMapGenerator.widthHeightRatioNarrow,
+        false
       );
+      this.defaultZoom = 12;
     }
     const apiUrl = `${
       StaticMapGenerator.staticApiBaseUrl
