@@ -69,7 +69,8 @@ class IndexPage {
         this.setRestaurants(restaurants)
           .resetRestaurants()
           .fillRestaurantsHTML()
-          .hideLoadingScreen();
+          .hideLoadingScreen()
+          .createStaticMapImageElement();
       })
       .catch(err => {
         console.error(err);
@@ -177,7 +178,9 @@ class IndexPage {
     const staticMapImg = document.createElement("img");
     staticMapImg.alt =
       "Static Google Maps of New-york. Hover or click to view the restaurants location.";
-    staticMapImg.src = new StaticMapGenerator("index").getApiUrl();
+    staticMapImg.src = new StaticMapGenerator("index").getApiUrl(
+      this.restaurants
+    );
     staticMapContainer.appendChild(staticMapImg);
   }
 }
@@ -186,5 +189,5 @@ class IndexPage {
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener("DOMContentLoaded", event => {
-  new IndexPage().fetchFilters().createStaticMapImageElement();
+  new IndexPage().fetchFilters();
 });

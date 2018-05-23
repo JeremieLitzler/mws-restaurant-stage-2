@@ -54,11 +54,23 @@ class StaticMapGenerator {
     console.log(calculatedHeight);
     return calculatedHeight;
   }
+  buildMarkers(restaurants) {
+    let markersConfigStr = "markers=color:red%7C";
+    let iterator = 1;
+    restaurants.forEach(restaurant => {
+      iterator += 1;
+      markersConfigStr += `${restaurant.latlng.lat},${restaurant.latlng.lng}`;
+      if (restaurants.length > iterator) {
+        markersConfigStr += "%7C";
+      }
+    });
+    return markersConfigStr;
+  }
   /**
    * Get the Google Maps Static API Url to generate the image.
    * The center is defined by CENTER_LATITUDE and CENTER_LONGITUDE constants.
    */
-  getApiUrl() {
+  getApiUrl(restaurants) {
     if (this.doesWindowWidthExceedFreePlan()) {
       this.imageHeight = this.getImageHeightInPx(
         StaticMapGenerator.widthHeightRatioNarrow
@@ -73,13 +85,13 @@ class StaticMapGenerator {
       );
       this.defaultZoom = 11;
     }
+    const markersStr = this.buildMarkers(restaurants);
+
     const apiUrl = `${
       StaticMapGenerator.staticApiBaseUrl
-    }?center=${CENTER_LATITUDE},${CENTER_LONGITUDE}&scale=${
-      this.imageScale
-    }&zoom=${this.defaultZoom}&size=${this.imageWidth}x${
-      this.imageHeight
-    }&key=${STATIC_API_KEY}`;
+    }?${markersStr}&scale=${this.imageScale}&zoom=${this.defaultZoom}&size=${
+      this.imageWidth
+    }x${this.imageHeight}&key=${STATIC_API_KEY}`;
 
     return apiUrl;
   }
@@ -97,11 +109,10 @@ class StaticMapGenerator {
         this.imageWidth * StaticMapGenerator.widthHeightRatioNarrow
       );
     }
+    const markersStr = this.buildMarkers([restaurant]);
     const apiUrl = `${
       StaticMapGenerator.staticApiBaseUrl
-    }?markers=color:red%7C${restaurant.latlng.lat},${
-      restaurant.latlng.lng
-    }&scale=${this.imageScale}&zoom=${this.defaultZoom}&size=${
+    }?${markersStr}&scale=${this.imageScale}&zoom=${this.defaultZoom}&size=${
       this.imageWidth
     }x${this.imageHeight}&key=${STATIC_API_KEY}`;
 
