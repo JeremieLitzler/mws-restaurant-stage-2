@@ -2,15 +2,14 @@ let mapContainer = document.querySelector(".map-container");
 let staticMapContainer = document.querySelector("#static-map");
 
 class StaticMapGenerator {
-  constructor(targetPage) {
-    this.targetPage = targetPage;
+  constructor() {
     //only when the map is on top of the list
     //WARNING: Google Static API accepts only int values for the width and height.
     this.imageWidth = mapContainer.offsetWidth;
     this.imageHeight = window.innerHeight;
     //natural size: https://developers.google.com/maps/documentation/maps-static/intro#scale_values
     this.imageScale = 1;
-    this.defaultZoom = 11;
+    this.defaultZoom = 10;
   }
 
   static get staticApiBaseUrl() {
@@ -72,7 +71,7 @@ class StaticMapGenerator {
         StaticMapGenerator.widthHeightRatioNarrow,
         false
       );
-      this.defaultZoom = 12;
+      this.defaultZoom = 11;
     }
     const apiUrl = `${
       StaticMapGenerator.staticApiBaseUrl
@@ -95,7 +94,7 @@ class StaticMapGenerator {
     if (this.isWindowWidthUnderTabletBreakPoint()) {
       this.imageWidth = window.innerWidth;
       this.imageHeight = parseInt(
-        this.imageWidth * StaticMapGenerator.widthHeightRatio
+        this.imageWidth * StaticMapGenerator.widthHeightRatioNarrow
       );
     }
     const apiUrl = `${

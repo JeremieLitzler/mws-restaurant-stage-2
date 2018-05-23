@@ -213,11 +213,12 @@ class RestaurantPage {
   createStaticMapImageElement() {
     let staticMapContainer = document.querySelector("#static-map");
     const staticMapImg = document.createElement("img");
-    staticMapImg.alt =
-      "Static Google Maps of New-york. Hover or click to view the restaurants location.";
-    staticMapImg.src = new StaticMapGenerator("index").getApiUrlForRestaurant(
-      this.restaurant
-    );
+    staticMapImg.alt = `Location of ${
+      this.restaurant.name
+    }. Hover or click to view the dynamic map.`;
+    staticMapImg.src = new StaticMapGenerator(
+      "restaurant"
+    ).getApiUrlForRestaurant(this.restaurant);
     staticMapContainer.appendChild(staticMapImg);
   }
 }

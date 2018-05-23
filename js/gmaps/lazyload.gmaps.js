@@ -41,7 +41,7 @@ function google_maps_init_on_index() {
     lng: CENTER_LONGITUDE
   };
   self.map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 12,
+    zoom: 11,
     center: loc,
     scrollwheel: false
   });

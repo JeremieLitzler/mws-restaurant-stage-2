@@ -31,9 +31,9 @@
     /* default line height */
     --lh-default: 1em;
     /* default top and bottom margin */
-    --default-y-mg: 8px;
+    --default-y-mg: 4px;
     /* default left and righ margin */
-    --default-x-mg: 8px;
+    --default-x-mg: 4px;
     /* default padding all around */
     --default-pad: 16px;
     /* default border radius */
@@ -42,7 +42,7 @@
     --shadow-light: 0 0 8px 3px rgba(255, 255, 255, 0.8);
     /* a dark shadow (to use over light background) */
     --shadow-dark: 0 0 8px 3px rgba(12, 12, 12, 0.8);
-    /* COMPONENTS VAR */
+    /* COMPONENTS var */
     /* default light background color for a component */
     --c-bg-light: #f3f3f3;
     /* default light background color for a row component */
@@ -615,8 +615,8 @@ nav h1 a {
 }
 
 select option {
-    background-color: VAR(--BG-DARK);
-    color: VAR(--BRAND-COLOR);
+    background-color: var(--bg-dark);
+    color: var(--brand-color);
 }
 
 select option selected,
@@ -717,7 +717,13 @@ select option:checked {
     }
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 850px) {
+    .restaurants-list-container ul {
+        margin: 0 10vw;
+    }
+}
+
+@media screen and (min-width: 1280px) {
     .restaurants-list-container ul {
         grid-template-columns: auto auto auto;
         margin: 0 10vw;
