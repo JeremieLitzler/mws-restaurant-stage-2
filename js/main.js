@@ -70,11 +70,13 @@ class IndexPage {
           .resetRestaurants()
           .fillRestaurantsHTML()
           .hideLoadingScreen()
-          .createStaticMapImageElement();
+          .createStaticMapImageElement()
+          .updateMap();
       })
       .catch(err => {
         console.error(err);
       });
+    return this;
   }
   /**
    * Clear current restaurants, their HTML and remove their map markers.
@@ -83,9 +85,16 @@ class IndexPage {
     const ul = document.getElementById("restaurants-list");
     ul.innerHTML = "";
     // Remove all map markers
+    this.resetMarkers();
+    return this;
+  }
+
+  /**
+   * Reset the markers of the dynamic map
+   */
+  resetMarkers() {
     this.markers.forEach(m => m.setMap(null));
     this.markers = [];
-    return this;
   }
   /**
    * Create all restaurants HTML and add them to the webpage.
@@ -151,6 +160,9 @@ class IndexPage {
     li.append(moreContainer);
     return li;
   }
+  /**
+   * Refresh the markers on the dynamic map.
+   */
   updateMarkers() {
     const filters = this.readFilters();
     fetchRestaurantFiltered(filters).then(restaurants => {
@@ -158,12 +170,13 @@ class IndexPage {
     });
   }
   /**
-   * Add markers for current restaurants to the map.
+   * Add markers for current restaurants to the dynamic map.
    */
   addMarkersToMap() {
+    this.resetMarkers();
     this.restaurants.forEach(restaurant => {
       // Add marker to the map
-      const marker = MapsMarker.mapMarkerForRestaurant(restaurant, map);
+      const marker = MapsMarker.mapMarkerForRestaurant(restaurant, this.map);
       google.maps.event.addListener(marker, "click", () => {
         window.location.href = marker.url;
       });
@@ -174,14 +187,41 @@ class IndexPage {
    * Load the static Google Maps image.
    */
   createStaticMapImageElement() {
+    const CSS_CLASS_IMG = "static-map-img";
     let staticMapContainer = document.querySelector("#static-map");
-    const staticMapImg = document.createElement("img");
+    let staticMapImg = document.querySelector(`.${CSS_CLASS_IMG}`);
+    if (staticMapImg === null) {
+      staticMapImg = document.createElement("img");
+      staticMapImg.className = CSS_CLASS_IMG;
+    }
     staticMapImg.alt =
       "Static Google Maps of New-york. Hover or click to view the restaurants location.";
     staticMapImg.src = new StaticMapGenerator("index").getApiUrl(
       this.restaurants
     );
     staticMapContainer.appendChild(staticMapImg);
+
+    return this;
+  }
+
+  /**
+   * Update the target map depending on the context
+   */
+  updateMap() {
+    const dynamicMapContainer = document.querySelector("#map");
+    if (dynamicMapContainer === null) {
+      console.error(
+        new Error("No element with the id 'map' found in the DOM.")
+      );
+    }
+
+    if (dynamicMapContainer.style.display === "") {
+      this.createStaticMapImageElement();
+      return this;
+    }
+
+    this.updateMarkers();
+    return this;
   }
 }
 

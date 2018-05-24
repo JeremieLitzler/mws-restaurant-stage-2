@@ -46,21 +46,27 @@ class StaticMapGenerator {
       ? StaticMapGenerator.maxWidthForFreeApiPlan
       : window.innerWidth;
 
-    console.log("ratio", ratio);
+    //console.log("ratio", ratio);
     const calculatedHeight = parseInt(
       maxWidth * (window.innerHeight * ratio) / window.innerWidth
     );
 
-    console.log(calculatedHeight);
+    //console.log(calculatedHeight);
     return calculatedHeight;
   }
   buildMarkers(restaurants) {
     let markersConfigStr = "markers=color:red%7C";
     let iterator = 1;
     restaurants.forEach(restaurant => {
+      // console.log(
+      //   `Coordinates for ${restaurant.name} are : lat = ${
+      //     restaurant.latlng.lat
+      //   } ; lng = ${restaurant.latlng.lng}`
+      // );
       iterator += 1;
       markersConfigStr += `${restaurant.latlng.lat},${restaurant.latlng.lng}`;
-      if (restaurants.length > iterator) {
+      if (restaurants.length >= iterator) {
+        //add the pipe character after all coordinates except the last.
         markersConfigStr += "%7C";
       }
     });
