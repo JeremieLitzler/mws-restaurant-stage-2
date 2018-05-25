@@ -1,167 +1,86 @@
-const DEBUG = false;
-/*
- Copyright 2016 Google Inc. All Rights Reserved.
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-         http://www.apache.org/licenses/LICENSE-2.0
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
+const isDebuggingActive = location.hostname === "localhost" ? true : false;
+/**
+ * Credits: https://developers.google.com/web/tools/workbox/guides/get-started
+ */
+console.log("Hello from sw.js");
 
-// Names of the two caches used in this version of the service worker.
-// Change to CACHE_VERSION, etc. when you update any of the local resources, which will
-// in turn trigger the install event again.
-const CACHE_VERSION = 1;
-const PRECACHE = `rreviews-data-v${CACHE_VERSION}`;
-const PRECACHE_IMG = `rreviews-imgs-v${CACHE_VERSION}`;
-const RUNTIME = `rreviews-runtime-v${CACHE_VERSION}`;
-const RUNTIME_IMG = `rreviews-runtime-img-v${CACHE_VERSION}`;
+importScripts(
+  "https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox-sw.js"
+);
 
-// A list of local resources we always want to be cached.
-const PRECACHE_URLS = [
-  "./",
-  "./index.html",
-  "./restaurant.html",
-  "./js/io.min.js",
-  "./js/index.bundle.min.js",
-  "./js/restaurant.bundle.min.js",
-  "./css/styles.css",
-  "./img/img-ph-128w.svg",
-  "./img/img-ph-360w.svg",
-  "./favicon.ico",
-  "./site.webmanifest",
-  "./data/restaurants.json"
-];
-const buildImageUrlsArray = () => {
-  let imgUrls = [];
-  const imgFolderPath = "./img/";
-  const widths = ["128", "360", "480", "800"];
-  const amountOfPics = 10;
-  for (let index = 1; index <= amountOfPics; index++) {
-    for (const width in widths) {
-      imgUrls.push(`${imgFolderPath}${index}-${widths[width]}w.jpg`);
-    }
-  }
-  if (DEBUG) console.log("ImgUrls", imgUrls);
-  return imgUrls;
-};
+if (workbox) {
+  if (isDebuggingActive) console.log(`Yay! Workbox is loaded!`);
+} else {
+  if (isDebuggingActive) console.log(`Boo! Workbox didn't load!`);
+}
 
-const cacheUrls = (cacheStore, resourcesToCache) => {
-  caches
-    .open(cacheStore)
-    .then(cache => {
-      if (DEBUG) console.log(`Cache ${cacheStore} opened!`);
-      for (const url of resourcesToCache) {
-        if (DEBUG) console.log(`About to cache ${url} at index ${url}`);
-        cache.add(url).catch(err => {
-          console.error(`Cache.add failed for ${url}`, err);
-        });
-      }
-    })
-    .catch(error => {
-      console.error("caches", error);
-    });
-};
-const cacheStaticResources = () => {
-  cacheUrls(PRECACHE, PRECACHE_URLS);
-  const imageUrls = buildImageUrlsArray();
-  cacheUrls(PRECACHE_IMG, imageUrls);
-};
-// The install handler takes care of precaching the resources we always need.
-self.addEventListener("install", event => {
-  if (DEBUG) console.log("Installing service worker...");
-  event.waitUntil(cacheStaticResources());
-});
+/**
+ * Enables the workbox debugging logs in the console
+ */
+workbox.setConfig({ debug: isDebuggingActive });
 
-// The activate handler takes care of cleaning up old caches.
-self.addEventListener("activate", event => {
-  const currentCaches = [PRECACHE, PRECACHE_IMG, RUNTIME];
-  if (DEBUG) console.log(`Activating service worker with CACHE ${PRECACHE}`);
-  event.waitUntil(
-    caches
-      .keys()
-      .then(cacheNames => {
-        return cacheNames.filter(
-          cacheName => !currentCaches.includes(cacheName)
-        );
+/**
+ * See: https://developers.google.com/web/tools/workbox/modules/workbox-sw#skip_waiting_and_clients_claim
+ */
+workbox.skipWaiting();
+workbox.clientsClaim();
+
+/**
+ * Precache the static assets matching the regex
+ */
+workbox.routing.registerRoute(
+  /.*\.(?:js|html|css|json)/,
+  workbox.strategies.cacheFirst({ cacheName: workbox.core.cacheNames.precache })
+);
+
+/**
+ * Fetch the Javascript and CSS files from the cache first, while making sure they are updated in the background for the next use.
+ */
+workbox.routing.registerRoute(
+  /\.(?:js|css)$/,
+  workbox.strategies.staleWhileRevalidate()
+);
+/**
+ * Precache the images
+ */
+workbox.routing.registerRoute(
+  /.*\.(?:png|jpe?g|svg|gif)/,
+  workbox.strategies.cacheFirst({ cacheName: "img-cache" })
+);
+
+/**
+ * Images are cached and used until it’s a week old, after which it’ll need updating
+ */
+const WEEK_IN_SECONDS = 7 * 24 * 60 * 60;
+const MAX_ENTRIES =
+  5 * 10 + //restaurant images
+  4 + //placeholder svg
+  10; //icons
+
+workbox.routing.registerRoute(
+  // Cache image files
+  /.*\.(?:png|jpg|jpeg|svg|gif)/,
+  // Use the cache if it's available
+  workbox.strategies.cacheFirst({
+    // Use a custom cache name
+    cacheName: "image-cache",
+    plugins: [
+      new workbox.expiration.Plugin({
+        // Cache only 20 images
+        maxEntries: MAX_ENTRIES,
+        // Cache for a maximum of a week
+        maxAgeSeconds: WEEK_IN_SECONDS
       })
-      .then(cachesToDelete => {
-        return Promise.all(
-          cachesToDelete.map(cacheToDelete => {
-            return caches.delete(cacheToDelete);
-          })
-        );
-      })
-      .then(() => self.clients.claim())
-  );
-});
+    ]
+  })
+);
+/**
+ * Cache the Google Static API images (to show them while offline)
+ */
+workbox.routing.registerRoute(
+  /.*googleapis.com\/maps\/api\/staticmap.*$/,
+  workbox.strategies.staleWhileRevalidate({ cacheName: "staticmaps-cache" })
+);
+workbox.routing.registerNavigationRoute("/index.html");
 
-// The fetch handler serves responses for same-origin resources from a cache.
-// If no response is found, it populates the runtime cache with the response
-// from the network before returning it to the page.
-self.addEventListener("fetch", event => {
-  // Skip cross-origin requests, like those for Google Analytics or Maps
-  const requestUrl = event.request.url;
-  if (requestUrl.endsWith("offline.html")) {
-    //Do not catchoffline.html.
-    //It is used to detect if the user isn't connected to any network
-    return;
-  }
-  const searchBrowserSync = requestUrl.match(/(browser-sync)/);
-  if (
-    searchBrowserSync != null &&
-    searchBrowserSync.length != undefined &&
-    searchBrowserSync.length > 0
-  ) {
-    return;
-  }
-
-  if (requestUrl.startsWith(self.location.origin)) {
-    event.respondWith(
-      caches.match(event.request).then(cachedResponse => {
-        if (cachedResponse) {
-          if (DEBUG)
-            console.log(
-              `Request ${requestUrl} is found in the cache. We return it...`
-            );
-          return cachedResponse;
-        }
-        if (DEBUG)
-          console.log(
-            `Request ${requestUrl} is not found in the cache. Fetching from network...`
-          );
-        let targetCache = RUNTIME;
-        if (requestUrl.endsWith("jpg")) {
-          targetCache = RUNTIME_IMG;
-        }
-        if (DEBUG) console.log(`Looking up into ${targetCache}`);
-        return caches
-          .open(targetCache)
-          .then(cache => {
-            return fetch(event.request)
-              .then(response => {
-                // Put a copy of the response in the runtime cache.
-                return cache
-                  .put(event.request, response.clone())
-                  .then(() => {
-                    return response;
-                  })
-                  .catch(err => {
-                    console.error(`cache.put failed on ${requestUrl}`, err);
-                  });
-              })
-              .catch(err => {
-                console.error(`fetch failed on ${requestUrl}`, err);
-              });
-          })
-          .catch(err => {
-            console.error(`cache.match failed ${requestUrl}`, err);
-          });
-      })
-    );
-  }
-});
+workbox.precaching.precacheAndRoute([]);

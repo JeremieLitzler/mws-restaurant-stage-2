@@ -35,6 +35,7 @@ class RestaurantPage {
           return false;
         }
         this.setRestaurant(restaurant)
+          .hideLoadingScreen()
           .fillRestaurantHTML()
           .createStaticMapImageElement();
       })
@@ -47,6 +48,10 @@ class RestaurantPage {
    */
   fillRestaurantHTML() {
     this.fillBreadcrumb();
+    const restaurantContainer = document.querySelector(
+      ".restaurant-details-container"
+    );
+    restaurantContainer.style.display = "block";
     const name = document.getElementById("restaurant-name");
     name.innerHTML = `At ${this.restaurant.name}`;
     const cuisine = document.getElementById("restaurant-cuisine");
@@ -213,12 +218,23 @@ class RestaurantPage {
   createStaticMapImageElement() {
     let staticMapContainer = document.querySelector("#static-map");
     const staticMapImg = document.createElement("img");
-    staticMapImg.alt =
-      "Static Google Maps of New-york. Hover or click to view the restaurants location.";
-    staticMapImg.src = new StaticMapGenerator("index").getApiUrlForRestaurant(
-      this.restaurant
-    );
+    staticMapImg.alt = `Location of ${
+      this.restaurant.name
+    }. Hover or click to view the dynamic map.`;
+    staticMapImg.src = new StaticMapGenerator(
+      "restaurant"
+    ).getApiUrlForRestaurant(this.restaurant);
     staticMapContainer.appendChild(staticMapImg);
+  }
+
+  /**
+   * Hide the loading screen when the data is binded.
+   * TODO: export as module to be used in both html page.
+   */
+  hideLoadingScreen() {
+    const loadingScreen = document.querySelector(".loading-screen");
+    loadingScreen.style.display = "none";
+    return this;
   }
 }
 /**

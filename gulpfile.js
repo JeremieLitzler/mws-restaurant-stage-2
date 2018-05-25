@@ -339,7 +339,7 @@ gulp.task(
     "scripts"
   ],
   () => {
-    gulp.watch("./*.js", ["copy-root, default"]);
+    gulp.watch("./*.js", ["copy-root"]);
     gulp.watch("./js/**/*.js", ["scripts"]);
     gulp.watch("./css/**/*.css", ["optim-css"]);
     gulp.watch("./**/*.html", ["copy-html"]);

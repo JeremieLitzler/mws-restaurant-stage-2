@@ -2,15 +2,14 @@ let mapContainer = document.querySelector(".map-container");
 let staticMapContainer = document.querySelector("#static-map");
 
 class StaticMapGenerator {
-  constructor(targetPage) {
-    this.targetPage = targetPage;
+  constructor() {
     //only when the map is on top of the list
     //WARNING: Google Static API accepts only int values for the width and height.
     this.imageWidth = mapContainer.offsetWidth;
     this.imageHeight = window.innerHeight;
     //natural size: https://developers.google.com/maps/documentation/maps-static/intro#scale_values
     this.imageScale = 1;
-    this.defaultZoom = 11;
+    this.defaultZoom = 10;
   }
 
   static get staticApiBaseUrl() {
@@ -47,19 +46,37 @@ class StaticMapGenerator {
       ? StaticMapGenerator.maxWidthForFreeApiPlan
       : window.innerWidth;
 
-    console.log("ratio", ratio);
+    //console.log("ratio", ratio);
     const calculatedHeight = parseInt(
       maxWidth * (window.innerHeight * ratio) / window.innerWidth
     );
 
-    console.log(calculatedHeight);
+    //console.log(calculatedHeight);
     return calculatedHeight;
+  }
+  buildMarkers(restaurants) {
+    let markersConfigStr = "markers=color:red%7C";
+    let iterator = 1;
+    restaurants.forEach(restaurant => {
+      // console.log(
+      //   `Coordinates for ${restaurant.name} are : lat = ${
+      //     restaurant.latlng.lat
+      //   } ; lng = ${restaurant.latlng.lng}`
+      // );
+      iterator += 1;
+      markersConfigStr += `${restaurant.latlng.lat},${restaurant.latlng.lng}`;
+      if (restaurants.length >= iterator) {
+        //add the pipe character after all coordinates except the last.
+        markersConfigStr += "%7C";
+      }
+    });
+    return markersConfigStr;
   }
   /**
    * Get the Google Maps Static API Url to generate the image.
    * The center is defined by CENTER_LATITUDE and CENTER_LONGITUDE constants.
    */
-  getApiUrl() {
+  getApiUrl(restaurants) {
     if (this.doesWindowWidthExceedFreePlan()) {
       this.imageHeight = this.getImageHeightInPx(
         StaticMapGenerator.widthHeightRatioNarrow
@@ -72,15 +89,15 @@ class StaticMapGenerator {
         StaticMapGenerator.widthHeightRatioNarrow,
         false
       );
-      this.defaultZoom = 12;
+      this.defaultZoom = 11;
     }
+    const markersStr = this.buildMarkers(restaurants);
+
     const apiUrl = `${
       StaticMapGenerator.staticApiBaseUrl
-    }?center=${CENTER_LATITUDE},${CENTER_LONGITUDE}&scale=${
-      this.imageScale
-    }&zoom=${this.defaultZoom}&size=${this.imageWidth}x${
-      this.imageHeight
-    }&key=${STATIC_API_KEY}`;
+    }?${markersStr}&scale=${this.imageScale}&zoom=${this.defaultZoom}&size=${
+      this.imageWidth
+    }x${this.imageHeight}&key=${STATIC_API_KEY}`;
 
     return apiUrl;
   }
@@ -95,14 +112,13 @@ class StaticMapGenerator {
     if (this.isWindowWidthUnderTabletBreakPoint()) {
       this.imageWidth = window.innerWidth;
       this.imageHeight = parseInt(
-        this.imageWidth * StaticMapGenerator.widthHeightRatio
+        this.imageWidth * StaticMapGenerator.widthHeightRatioNarrow
       );
     }
+    const markersStr = this.buildMarkers([restaurant]);
     const apiUrl = `${
       StaticMapGenerator.staticApiBaseUrl
-    }?markers=color:red%7C${restaurant.latlng.lat},${
-      restaurant.latlng.lng
-    }&scale=${this.imageScale}&zoom=${this.defaultZoom}&size=${
+    }?${markersStr}&scale=${this.imageScale}&zoom=${this.defaultZoom}&size=${
       this.imageWidth
     }x${this.imageHeight}&key=${STATIC_API_KEY}`;
 
