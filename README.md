@@ -21,7 +21,9 @@ Pre-requisites :
 
 * Latest LTS NodeJS with npm
 
-Then:
+Then run the following commands:
 
-* run `bash init.app.sh`
-* and finally to be in production mode: `gulp go-live`
+* first, install the dependencies: `bash init.app.sh`
+* then, build the app in production mode: `gulp go-live`
+* navigate the built app: `cd build/`
+* finally, launch the app in your default browser (**Chrome is recommended ;)**): `serve -o`
