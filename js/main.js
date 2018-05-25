@@ -8,6 +8,10 @@ class IndexPage {
     this.restaurants = restaurants;
     return this;
   }
+  /**
+   * Hide the loading screen when the data is binded.
+   * TODO: export as module to be used in both html page.
+   */
   hideLoadingScreen() {
     const loadingScreen = document.querySelector(".loading-screen");
     loadingScreen.style.display = "none";
